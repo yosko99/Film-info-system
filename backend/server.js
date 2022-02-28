@@ -1,40 +1,13 @@
 const [notFound, errorHandler] = require('./middleware/errorMiddleware');
+const filmRoutes = require('./routes/filmRoutes');
 const express = require('express');
-const db = require('./config/db');
 require('dotenv').config();
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/tables', (req, res) => {
-    const tableName = req.query.table || '';
-    const query = `SELECT * FROM ${tableName.toLowerCase()}`;
-
-    db.query(query, (err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result);
-        }
-    })
-})
-
-app.get('/insertFilm', (req, res) => {
-    const film = {
-        nazvanieFilm: 'testFilm',
-        kompozitorFilm: 'testKompozitor'
-    }
-
-    const query = 'INSERT INTO film SET ?'
-
-    db.query(query, film, (err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result);
-        }
-    })
-})
-
+app.use('/api/film/', filmRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

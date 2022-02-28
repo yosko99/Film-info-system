@@ -7,7 +7,7 @@ const Test = () => {
   const [filmInfoState, setFilmInfoState] = useState('');
 
   useEffect(() => {
-    axios.get('/tables?table=film').then((response) => {
+    axios.get('/api/film/').then((response) => {
       setFilmState(response.data);
     }).catch((err) => {
       console.log(err);
