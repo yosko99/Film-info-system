@@ -3,7 +3,7 @@ const router = require('express').Router();
 const db = require('../config/db');
 
 // @desc Fetch all films from DB
-// @route GET /api/film
+// @route GET /api/film/
 // @access Public
 router.get('/', asyncHandler(async (req, res) =>{
     const query = `SELECT * FROM film`;
@@ -19,7 +19,7 @@ router.get('/', asyncHandler(async (req, res) =>{
 
 
 // @desc Add a new film to DB
-// @route POST /api/film
+// @route POST /api/film/
 // @access Public
 router.post('/', asyncHandler(async (req, res) =>{    
     const query = 'INSERT INTO film SET ?'

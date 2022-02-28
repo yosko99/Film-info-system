@@ -4,10 +4,10 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="primary" variant="dark" expand="lg">
         <Container>
             <LinkContainer to='/'>
-                <Navbar.Brand href="#">Info system</Navbar.Brand>
+                <Navbar.Brand>Info system</Navbar.Brand>
             </LinkContainer>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">

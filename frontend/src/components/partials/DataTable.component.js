@@ -1,16 +1,17 @@
-import { Container, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import Loading from '../Loading.component';
+import { Table } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
-/* eslint-disable */
-const CinemaScreen = ({ link, data }) => {
-  const [state, setState] = useState([]);
+const DataTable = ({ link, data }) => {
   const [loadingState, setLoadingState] = useState(true);
+  const [dataState, setDataState] = useState([]);
 
+  // Fetch data on component load depending on passed route
   useEffect(() => {
     axios.get(link).then((response) => {
-      setState(response.data);
+      setDataState(response.data);
       setLoadingState(false);
     }).catch((err) => {
       console.log(err);
@@ -19,7 +20,7 @@ const CinemaScreen = ({ link, data }) => {
 
   return (
     <>
-    <Container className='mt-2'>
+    <div className='mt-2'>
         {loadingState
           ? <Loading/>
           : <Table striped bordered hover >
@@ -31,7 +32,7 @@ const CinemaScreen = ({ link, data }) => {
                 </tr>
             </thead>
             <tbody>
-                {state.map((stateData, index) => (
+                {dataState.map((stateData, index) => (
                     <tr key={index + 1}>
                         {Object.keys(data).map((key, index) => (
                             <td key={index + 1}>{stateData[key]}</td>
@@ -41,9 +42,14 @@ const CinemaScreen = ({ link, data }) => {
             </tbody>
         </Table>
         }
-    </Container>
+    </div>
     </>
   );
 };
 
-export default CinemaScreen;
+DataTable.propTypes = {
+  link: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired
+};
+
+export default DataTable;
