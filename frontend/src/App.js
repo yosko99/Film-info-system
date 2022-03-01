@@ -4,7 +4,7 @@ import CinemaScreen from './components/screens/CinemaScreen';
 import Header from './components/partials/Header.component';
 import MainScreen from './components/screens/MainScreen';
 import FilmScreen from './components/screens/FilmScreen';
-import AddFilm from './components/AddFilm.component';
+import AddData from './components/AddData.component';
 import React from 'react';
 
 function App () {
@@ -17,7 +17,7 @@ function App () {
           <Route path='/films' exact element={<FilmScreen />}/>
           <Route path='/cinemas' exact element={<CinemaScreen />}/>
           <Route path='/projects' exact element={<ProjectScreen />}/>
-          <Route path='/addFilm' exact element={<AddFilm />}/>
+          <Route path='/addFilm' exact element={<AddData />}/>
         </Routes>
       </main>
     </Router>
