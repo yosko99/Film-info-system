@@ -1,9 +1,8 @@
 import { Button, Modal } from 'react-bootstrap';
-import AddData from '../AddData.component';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const ModalForm = ({ btnText, link, inputValues, formData }) => {
+const ModalForm = ({ btnText, modalBody }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -22,7 +21,7 @@ const ModalForm = ({ btnText, link, inputValues, formData }) => {
             <Modal.Title>{btnText}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <AddData link={link} inputValues={inputValues} formData={formData}/>
+              {modalBody}
             </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -35,10 +34,8 @@ const ModalForm = ({ btnText, link, inputValues, formData }) => {
 };
 
 ModalForm.propTypes = {
-  inputValues: PropTypes.object.isRequired,
   btnText: PropTypes.string.isRequired,
-  formData: PropTypes.array.isRequired,
-  link: PropTypes.string.isRequired
+  modalBody: PropTypes.any.isRequired
 };
 
 export default ModalForm;
