@@ -1,21 +1,54 @@
 import DataTable from '../partials/DataTable.component';
+import ModalForm from '../partials/Modal.component';
 import { Container } from 'react-bootstrap';
 import React from 'react';
 
 const CinemaScreen = () => {
+  const inputData = {
+    kodKinoteatyr: 'Код на кинотеатър',
+    nazvanieKinoteatyr: 'Название на кинотеатър',
+    adresKinoteatyr: 'Адрес на кинотеатър',
+    kategoriqKinoteatyr: 'Категория на кинотеатър',
+    imeDirektor: 'Име на директор',
+    kinorazpredelitel: 'Киноразпределител'
+  };
+
+  const formData = [
+    {
+      id: 'nazvanieKinoteatyr',
+      label: 'Название на кинотеатър',
+      placeHolder: 'Въведи име на кинотеатър'
+    }, {
+      id: 'adresKinoteatyr',
+      label: 'Адрес на кинотеатър',
+      placeHolder: 'Въведи адрес на кинотеатър'
+    }, {
+      id: 'kategoriqKinoteatyr',
+      label: 'Категория на кинотеатър',
+      placeHolder: 'Въведи категория на кинотеатър'
+    }, {
+      id: 'imeDirektor',
+      label: 'Име на директор',
+      placeHolder: 'Въведи име на директор'
+    }, {
+      id: 'kinorazpredelitel',
+      label: 'Име на киноразпределител',
+      placeHolder: 'Въведи име на киноразпределител'
+    }
+  ];
+
   return (
       <Container>
         <h2 className='text-center my-3'>Справка на кинотеатри</h2>
+        <ModalForm
+          btnText={'Добави нов кинотеатър'}
+          link={'/api/cinema/'}
+          inputValues={inputData}
+          formData={formData}
+        />
             <DataTable
                 link={'/api/cinema/'}
-                data={{
-                  kodKinoteatyr: 'Код на кинотеатър',
-                  nazvanieKinoteatyr: 'Название на кинотеатър',
-                  adresKinoteatyr: 'Адрес на кинотеатър',
-                  kategoriqKinoteatyr: 'Категория на кинотеатър',
-                  imeDirektor: 'Име на директор',
-                  kinorazpredelitel: 'Киноразпределител'
-                }}
+                data={inputData}
             />
       </Container>
   );

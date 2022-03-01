@@ -1,6 +1,7 @@
+import { LinkContainer } from 'react-router-bootstrap';
 import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'react-bootstrap';
 import Loading from '../Loading.component';
-import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -29,15 +30,21 @@ const DataTable = ({ link, data }) => {
                     {Object.values(data).map((title, index) => (
                         <th key={index + 1}>{title}</th>
                     ))}
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {dataState.map((stateData, index) => (
-                    <tr key={index + 1}>
-                        {Object.keys(data).map((key, index) => (
-                            <td key={index + 1}>{stateData[key]}</td>
-                        ))}
-                    </tr>
+                  <tr key={index + 1}>
+                      {Object.keys(data).map((key, index) => (
+                          <td key={index + 1}>{stateData[key]}</td>
+                      ))}
+                    <td>
+                        <LinkContainer className='d-flex justify-content-center' to={`${window.location.pathname}/${Object.values(stateData)[0]}`}>
+                          <Button>Редактирай</Button>
+                        </LinkContainer>
+                    </td>
+                  </tr>
                 ))}
             </tbody>
         </Table>

@@ -40,7 +40,7 @@ router.post('/', asyncHandler(async (req, res) =>{
             res.send(idErr);
         } else {
             const maxID = idResult[0].maxID + 1;
-            // film.kodFilm = maxID;
+            film.kodFilm = maxID;
 
             db.query(query, film, (err, result) => {
                 if (err) {
@@ -53,7 +53,5 @@ router.post('/', asyncHandler(async (req, res) =>{
     })
     
 }));
-
-router.post('/')
 
 module.exports = router;
