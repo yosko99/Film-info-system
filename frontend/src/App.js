@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import EditDataScreen from './components/screens/EditDataScreen';
 import ProjectScreen from './components/screens/ProjectScreen';
 import CinemaScreen from './components/screens/CinemaScreen';
 import Header from './components/partials/Header.component';
@@ -14,9 +15,11 @@ function App () {
       <main style={{ minHeight: '80vh' }}>
         <Routes>
           <Route path='/' exact element={<MainScreen />}/>
-          <Route path='/films' exact element={<FilmScreen />}/>
-          <Route path='/cinemas' exact element={<CinemaScreen />}/>
-          <Route path='/projects' exact element={<ProjectScreen />}/>
+          <Route path='/film' exact element={<FilmScreen />}/>
+          <Route path='/film/:id' exact element={<EditDataScreen />}/>
+          <Route path='/cinema' exact element={<CinemaScreen />}/>
+          <Route path='/cinema/:id' exact element={<EditDataScreen />}/>
+          <Route path='/project' exact element={<ProjectScreen />}/>
           <Route path='/addFilm' exact element={<AddData />}/>
         </Routes>
       </main>

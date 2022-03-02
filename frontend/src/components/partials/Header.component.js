@@ -16,13 +16,13 @@ const Header = () => {
                 style={{ maxHeight: '100px' }}
                 navbarScroll
                 >
-                    <LinkContainer to="/films">
+                    <LinkContainer to="/film">
                         <Nav.Link>Филми</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/cinemas">
+                    <LinkContainer to="/cinema">
                         <Nav.Link>Кинотеатри</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/projects">
+                    <LinkContainer to="/project">
                         <Nav.Link>Прожекции</Nav.Link>
                     </LinkContainer>
                 </Nav>

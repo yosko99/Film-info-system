@@ -24,13 +24,15 @@ router.post('/', asyncHandler(async (req, res) =>{
     const idQuery = 'SELECT MAX(kodKinoteatyr) as maxID FROM kinoteatyr';
     const query = 'INSERT INTO kinoteatyr SET ?'
 
+    const {body: {data : { nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel }}} = req;
+
     const cinema = {
         kodKinoteatyr: '',
-        nazvanieKinoteatyr: req.body.data.nazvanieKinoteatyr,
-        adresKinoteatyr: req.body.data.adresKinoteatyr,
-        kategoriqKinoteatyr: req.body.data.kategoriqKinoteatyr,
-        imeDirektor: req.body.data.imeDirektor,
-        kinorazpredelitel: req.body.data.kinorazpredelitel
+        nazvanieKinoteatyr,
+        adresKinoteatyr,
+        kategoriqKinoteatyr,
+        imeDirektor,
+        kinorazpredelitel
     }
 
     db.query(idQuery, (idErr, idResult) => {

@@ -23,11 +23,13 @@ router.get('/', asyncHandler(async (req, res) =>{
 router.post('/', asyncHandler(async (req, res) =>{    
     const query = 'INSERT INTO projektira SET ?'
 
+    const {body: {data : { dataProjekciq, cenaBilet, kodKinoteatyr, kodFilm }}} = req;
+
     const project = {
-        dataProjekciq: req.body.data.dataProjekciq,
-        cenaBilet: req.body.data.cenaBilet,
-        kodKinoteatyr: req.body.data.kodKinoteatyr,
-        kodFilm: req.body.data.kodFilm
+        dataProjekciq,
+        cenaBilet,
+        kodKinoteatyr,
+        kodFilm
     }
 
     db.query(query, project, (err, result) => {

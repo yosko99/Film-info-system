@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const router = require('express').Router();
 const db = require('../config/db');
 
-// @desc Fetch all films from DB
+// @desc Fetch all films
 // @route GET /api/film/
 // @access Public
 router.get('/', asyncHandler(async (req, res) =>{
@@ -18,21 +18,23 @@ router.get('/', asyncHandler(async (req, res) =>{
 }));
 
 
-// @desc Add a new film to DB
+// @desc Add a new film
 // @route POST /api/film/
 // @access Public
 router.post('/', asyncHandler(async (req, res) =>{    
     const idQuery = 'SELECT MAX(kodFilm) as maxID FROM film';
     const query = 'INSERT INTO film SET ?'
 
+    const {body: {data : { nazvanieFilm, kategoriqFilm, kompozitorFilm, rejisyorFilm, scenaristFilm, tematikaFilm }}} = req;
+
     const film = {
         kodFilm: '',
-        nazvanieFilm: req.body.data.nazvanieFilm,
-        kategoriqFilm: req.body.data.kategoriqFilm,
-        kompozitorFilm: req.body.data.kompozitorFilm,
-        rejisyorFilm: req.body.data.rejisyorFilm,
-        scenaristFilm: req.body.data.scenaristFilm,
-        tematikaFilm: req.body.data.tematikaFilm
+        nazvanieFilm,
+        kategoriqFilm,
+        kompozitorFilm,
+        rejisyorFilm,
+        scenaristFilm,
+        tematikaFilm
     }
 
     db.query(idQuery, (idErr, idResult) => {
@@ -52,6 +54,38 @@ router.post('/', asyncHandler(async (req, res) =>{
         }
     })
     
+}));
+
+// @desc Fetch single film with provided film ID
+// @route GET /api/film/:id
+// @access Public
+router.get('/:id', asyncHandler(async (req, res) =>{
+    const id = req.params.id;
+    const query = `SELECT * FROM film WHERE kodFilm = ${id}`;
+
+    db.query(query, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+}));
+
+// @desc Update film
+// @route PUT /api/film/
+// @access Public
+router.put('/', asyncHandler(async (req, res) =>{
+    const query = `UPDATE film SET nazvanieFilm = ?, rejisyorFilm = ?, kompozitorFilm = ?, tematikaFilm = ?, kategoriqFilm = ?, scenaristFilm = ? WHERE kodFilm = ?`;
+    const {body: {data : { kodFilm, nazvanieFilm, kategoriqFilm, kompozitorFilm, rejisyorFilm, scenaristFilm, tematikaFilm }}} = req;
+
+    db.query(query,[nazvanieFilm, rejisyorFilm, kompozitorFilm, tematikaFilm, kategoriqFilm, scenaristFilm, kodFilm],(err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
 }));
 
 module.exports = router;

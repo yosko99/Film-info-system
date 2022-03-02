@@ -4,13 +4,30 @@ import Loading from './Loading.component';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const AddData = ({ link, inputValues, formData, optionMenu = false }) => {
+const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValues = '' }) => {
   // TODO: Maybe make it more responsive and export functionality and components to other files
 
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
   const [fetchResponseState, setFetchResponseState] = useState('');
   const [dataState, setDataState] = useState({ inputValues });
   const [validated, setValidated] = useState(false);
+
+
+  const responseUpdate = (response) => {
+    // Something went wrong with the action
+    if (response.data.sqlMessage !== undefined) {
+      setFetchResponseState({
+        msg: response.data.sqlMessage,
+        variant: 'danger'
+      });
+    } else {
+      // Successfull action
+      setFetchResponseState({
+        msg: 'Успешно действие :)',
+        variant: 'success'
+      });
+    }
+  }
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -22,26 +39,24 @@ const AddData = ({ link, inputValues, formData, optionMenu = false }) => {
     } else {
       event.preventDefault();
 
-      axios.post(link, {
-        data: dataState
-      }).then((response) => {
-        // Something went wrong with the insertion
-        if (response.data.sqlMessage !== undefined) {
-          setFetchResponseState({
-            msg: response.data.sqlMessage,
-            variant: 'danger'
-          });
-        } else {
-          // Successfull inesrtion
-          setFetchResponseState({
-            msg: 'Успешно добавяне :)',
-            variant: 'success'
-          });
-        }
-      }).catch((err) => {
-        console.log(err.sqlState);
-      });
-    }
+      if(defaultValues === '') {
+        axios.post(link, {
+          data: dataState
+        }).then((response) => {
+          responseUpdate(response);
+        }).catch((err) => {
+          console.log(err.sqlState);
+        });
+      } else {
+        axios.put(link, {
+          data: dataState
+        }).then((response) => {
+          responseUpdate(response);
+        }).catch((err) => {
+          console.log(err.sqlState);
+        });
+      }
+      }
 
     setValidated(true);
   };
@@ -66,11 +81,15 @@ const AddData = ({ link, inputValues, formData, optionMenu = false }) => {
         });
       });
     }
+
+    setDataState(defaultValues);
   }, []);
 
   return (
     <>
     {/* Check whether option menu flag is set and print cycle of input or raw input */}
+
+    {defaultValues !== '' && <h3 className='text-center my-2'>Редактирай {defaultValues[formData[0].id]}</h3>}
 
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       {!optionMenu
@@ -81,9 +100,10 @@ const AddData = ({ link, inputValues, formData, optionMenu = false }) => {
               required
               type="text"
               name={formItem.id}
-              pattern='^[a-zA-Z]+$'
+              pattern='^[a-zA-Z\s]+$'
               onChange={(e) => handleChange(e)}
               placeholder={formItem.placeHolder}
+              defaultValue={defaultValues[formItem.id]}
             />
           <Form.Control.Feedback type="valid">Изглежда добре!</Form.Control.Feedback>
           <Form.Control.Feedback type="invalid">Пробвайте с друг вход!</Form.Control.Feedback>
@@ -144,18 +164,24 @@ const AddData = ({ link, inputValues, formData, optionMenu = false }) => {
         </>}
 
       {fetchResponseState !== '' && <Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert>}
-
-        <Button type="submit" className='w-100 mt-2'>Добави</Button>
+          {defaultValues === '' ? 
+           <Button type='submit' className='w-100 mt-2'>Добави</Button> : 
+           <>
+             <Button type='submit' variant='success' className='w-50 mt-2 '>Редактирай</Button>
+             <Button type='submit' variant='danger' className='w-50 mt-2'>Изтрий</Button>
+           </>
+           }
     </Form>
     </>
   );
 };
 
 AddData.propTypes = {
+  defaultValues: PropTypes.object,
   inputValues: PropTypes.object,
   optionMenu: PropTypes.bool,
   formData: PropTypes.array,
-  link: PropTypes.string
+  link: PropTypes.string,
 };
 
 export default AddData;
