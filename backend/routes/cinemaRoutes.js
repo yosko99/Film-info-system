@@ -54,4 +54,36 @@ router.post('/', asyncHandler(async (req, res) =>{
     
 }));
 
+// @desc Fetch single cinema with provided cinema ID
+// @route GET /api/cinema/:id
+// @access Public
+router.get('/:id', asyncHandler(async (req, res) =>{
+    const id = req.params.id;
+    const query = `SELECT * FROM kinoteatyr WHERE kodKinoteatyr = ${id}`;
+
+    db.query(query, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+}));
+
+// @desc Update cinema
+// @route PUT /api/cinema/
+// @access Public
+router.put('/', asyncHandler(async (req, res) =>{
+    const query = `UPDATE kinoteatyr SET nazvanieKinoteatyr = ?, adresKinoteatyr = ?, kategoriqKinoteatyr = ?, imeDirektor = ?, kinorazpredelitel = ? WHERE kodKinoteatyr = ?`;
+    const {body: {data : { kodKinoteatyr, nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel }}} = req;
+
+    db.query(query,[nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel, kodKinoteatyr],(err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+}));
+
 module.exports = router;
