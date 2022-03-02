@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import cinemaData from '../../data/cinemaData';
+import { Container } from 'react-bootstrap';
 import AddData from '../AddData.component';
 import filmData from '../../data/filmData';
-import { Container } from 'react-bootstrap';
 import Loading from '../Loading.component';
+import axios from 'axios';
 
 const EditDataScreen = () => {
+  const [currentTableState, setCurrentTableState] = useState({});
   const [loadingState, setLoadingState] = useState(true);
   const [dataState, setDataState] = useState([]);
 
+  const apiRoute = window.location.pathname.split('/')[1];
+
   useEffect(() => {
     axios.get(`/api${window.location.pathname}`).then((response) => {
+      // Check which route is entered to decide what data to load
+      apiRoute === 'cinema' ? setCurrentTableState(cinemaData) : setCurrentTableState(filmData);
       setDataState(response.data[0]);
       setLoadingState(false);
     }).catch((err) => {
@@ -24,9 +30,9 @@ const EditDataScreen = () => {
         ? <Loading />
         : <Container className='mt-2'>
           <AddData
-          link={'/api/film/'}
-          inputValues={filmData.inputData}
-          formData={filmData.formData}
+          link={`/api/${apiRoute}/`}
+          inputValues={currentTableState.inputData}
+          formData={currentTableState.formData}
           defaultValues={dataState}
           />
       </Container>

@@ -88,4 +88,21 @@ router.put('/', asyncHandler(async (req, res) =>{
     })
 }));
 
+// @desc Delete single film with provided ID
+// @route DELETE /api/film/:id
+// @access Public
+router.delete('/:id', asyncHandler(async (req, res) =>{
+    const id = req.params.id;
+    const query = `DELETE FROM film WHERE kodFilm = ${id} LIMIT 1`;
+
+    db.query(query, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+}));
+
+
 module.exports = router;

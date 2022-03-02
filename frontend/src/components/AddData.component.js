@@ -1,4 +1,5 @@
 import { Form, Button, Col, Alert } from 'react-bootstrap';
+import  { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Loading from './Loading.component';
 import PropTypes from 'prop-types';
@@ -61,6 +62,25 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     setValidated(true);
   };
 
+  const navigate = useNavigate();
+  const { id } = useParams(); 
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    if(confirm('Наистина ли искате да изтриете данните?')) {
+      // Link where you will be redirected after deletion
+      const backUrl = `/${window.location.pathname.split('/')[1]}`;
+
+      axios.delete(link + id,).then((response) => {
+        alert('Данните са изтрити успешно!');
+        navigate(backUrl);
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
+  }
+
   // Update form value states
   const handleChange = (e) => {
     const value = e.target.value;
@@ -89,6 +109,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     <>
     {/* Check whether option menu flag is set and print cycle of input or raw input */}
 
+    {/* TODO: Maybe update title on save */}
     {defaultValues !== '' && <h3 className='text-center my-2'>Редактирай {defaultValues[formData[0].id]}</h3>}
 
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -100,7 +121,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
               required
               type="text"
               name={formItem.id}
-              pattern='^[a-zA-Z\s]+$'
+              pattern='^[a-zA-Z\s\d]+$'
               onChange={(e) => handleChange(e)}
               placeholder={formItem.placeHolder}
               defaultValue={defaultValues[formItem.id]}
@@ -164,11 +185,12 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         </>}
 
       {fetchResponseState !== '' && <Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert>}
+
           {defaultValues === '' ? 
            <Button type='submit' className='w-100 mt-2'>Добави</Button> : 
            <>
              <Button type='submit' variant='success' className='w-50 mt-2 '>Редактирай</Button>
-             <Button type='submit' variant='danger' className='w-50 mt-2'>Изтрий</Button>
+             <Button type='submit' variant='danger' onClick={(e) => handleDelete(e)} className='w-50 mt-2'>Изтрий</Button>
            </>
            }
     </Form>

@@ -5,7 +5,7 @@ import Loading from '../Loading.component';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const DataTable = ({ link, data }) => {
+const DataTable = ({ link, data, showSetting = true }) => {
   const [loadingState, setLoadingState] = useState(true);
   const [dataState, setDataState] = useState([]);
 
@@ -30,7 +30,7 @@ const DataTable = ({ link, data }) => {
                     {Object.values(data).map((title, index) => (
                         <th key={index + 1}>{title}</th>
                     ))}
-                    <th></th>
+                    {showSetting && <th></th>}
                 </tr>
             </thead>
             <tbody>
@@ -39,11 +39,13 @@ const DataTable = ({ link, data }) => {
                       {Object.keys(data).map((key, index) => (
                           <td key={index + 1}>{stateData[key]}</td>
                       ))}
-                    <td>
+                      {showSetting &&
+                      <td>
                         <LinkContainer className='d-flex justify-content-center' to={`${window.location.pathname}/${Object.values(stateData)[0]}`}>
                           <Button>Редактирай</Button>
                         </LinkContainer>
-                    </td>
+                      </td>
+                      }
                   </tr>
                 ))}
             </tbody>
@@ -56,7 +58,8 @@ const DataTable = ({ link, data }) => {
 
 DataTable.propTypes = {
   link: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  showSetting: PropTypes.bool
 };
 
 export default DataTable;
