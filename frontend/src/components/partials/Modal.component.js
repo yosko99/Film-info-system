@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 const ModalForm = ({ btnText, modalBody }) => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    window.location.reload(false);
+  };
   const handleShow = () => setShow(true);
 
   return (

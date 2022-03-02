@@ -9,10 +9,12 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
   // TODO: Maybe make it more responsive and export functionality and components to other files
 
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
+  const [headerState, setHeaderState] = useState(defaultValues[formData[0].id]);
   const [fetchResponseState, setFetchResponseState] = useState('');
   const [dataState, setDataState] = useState({ inputValues });
   const [validated, setValidated] = useState(false);
 
+  const navigate = useNavigate();
 
   const responseUpdate = (response) => {
     // Something went wrong with the action
@@ -53,6 +55,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
           data: dataState
         }).then((response) => {
           responseUpdate(response);
+          setHeaderState(dataState[formData[0].id]);
         }).catch((err) => {
           console.log(err.sqlState);
         });
@@ -62,7 +65,6 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     setValidated(true);
   };
 
-  const navigate = useNavigate();
   const { id } = useParams(); 
 
   const handleDelete = (e) => {
@@ -110,7 +112,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     {/* Check whether option menu flag is set and print cycle of input or raw input */}
 
     {/* TODO: Maybe update title on save */}
-    {defaultValues !== '' && <h3 className='text-center my-2'>Редактирай {defaultValues[formData[0].id]}</h3>}
+    {defaultValues !== '' && <h3 className='text-center my-2'>Редактирай {headerState}</h3>}
 
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       {!optionMenu
