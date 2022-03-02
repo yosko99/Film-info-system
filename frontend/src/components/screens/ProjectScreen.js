@@ -1,10 +1,9 @@
+import ManipulateData from '../ManipulateData.component';
 import DataTable from '../partials/DataTable.component';
 import ModalForm from '../partials/Modal.component';
 import projectData from '../../data/projectData';
 import { Container } from 'react-bootstrap';
-import AddData from '../AddData.component';
 import React from 'react';
-
 const ProjectScreen = () => {
   return (
       <Container>
@@ -12,7 +11,7 @@ const ProjectScreen = () => {
         <ModalForm
           btnText={'Добави нова дата на прежекция'}
           modalBody={
-          <AddData
+          <ManipulateData
             link={'/api/project/'}
             inputValues={projectData.inputData}
             optionMenu={true}

@@ -1,7 +1,7 @@
+import ManipulateData from '../ManipulateData.component';
 import React, { useState, useEffect } from 'react';
 import cinemaData from '../../data/cinemaData';
 import { Container } from 'react-bootstrap';
-import AddData from '../AddData.component';
 import filmData from '../../data/filmData';
 import Loading from '../Loading.component';
 import axios from 'axios';
@@ -29,7 +29,7 @@ const EditDataScreen = () => {
       {loadingState
         ? <Loading />
         : <Container className='mt-2'>
-          <AddData
+          <ManipulateData
           link={`/api/${apiRoute}/`}
           inputValues={currentTableState.inputData}
           formData={currentTableState.formData}

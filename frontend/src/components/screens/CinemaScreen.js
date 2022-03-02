@@ -1,8 +1,8 @@
+import ManipulateData from '../ManipulateData.component';
 import DataTable from '../partials/DataTable.component';
 import ModalForm from '../partials/Modal.component';
 import cinemaData from '../../data/cinemaData';
 import { Container } from 'react-bootstrap';
-import AddData from '../AddData.component';
 import React from 'react';
 
 const CinemaScreen = () => {
@@ -12,7 +12,7 @@ const CinemaScreen = () => {
         <ModalForm
           btnText={'Добави нов кинотеатър'}
           modalBody={
-            <AddData
+            <ManipulateData
               link={'/api/cinema/'}
               inputValues={cinemaData.inputValues}
               formData={cinemaData.formData}
