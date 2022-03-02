@@ -1,10 +1,48 @@
-import React from 'react';
+import CustomCard from '../partials/CustomCard.component';
+import { Container, Row, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import Loading from '../Loading.component';
+import axios from 'axios';
 
 const MainScreen = () => {
+  const [state, setState] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/film/').then((response) => {
+      const films = response.data;
+      const randomFilms = [];
+
+      for (let i = 0; i < 4; i++) {
+        const film = films[Math.floor(Math.random() * films.length)];
+        const filmTitle = film.nazvanieFilm;
+
+        axios.get(`http://www.omdbapi.com/?t=${filmTitle}&apikey=b9333f1e`).then((response) => {
+          film.poster = response.data.Poster;
+          randomFilms.push(film);
+          randomFilms.length === 4 && setState(randomFilms);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
   return (
-      <>
-        <div>MainScreen</div>
-      </>
+      <Container>
+        <h2 className='text-center my-2 mb-5'>Популярни заглавия</h2>
+        {state === ''
+          ? <Loading />
+          : <Row>
+          {state.map((film, index) => (
+              <Col lg={3} md={6} sm={12} key={index + 1} className='d-flex justify-content-center'>
+                <CustomCard title={film.nazvanieFilm} body={film.kategoriqFilm} imgSrc={film.poster}/>
+              </Col>
+          ))}
+        </Row>
+        }
+      </Container>
   );
 };
 
