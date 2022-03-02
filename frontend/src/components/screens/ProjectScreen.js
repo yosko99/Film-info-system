@@ -1,6 +1,7 @@
 import DataTable from '../partials/DataTable.component';
 import ModalForm from '../partials/Modal.component';
 import { Container } from 'react-bootstrap';
+import AddData from '../AddData.component';
 import React from 'react';
 
 const ProjectScreen = () => {
@@ -15,7 +16,12 @@ const ProjectScreen = () => {
         <h2 className='text-center my-3'>Справка на прожекции</h2>
         <ModalForm
           btnText={'Добави нова дата на прежекция'}
-          modalBody={<h1>:D</h1>}
+          modalBody={
+          <AddData
+            link={'/api/project/'}
+            inputValues={inputData}
+            optionMenu={true}
+              />}
         />
             <DataTable
                 link={'/api/project/'}
