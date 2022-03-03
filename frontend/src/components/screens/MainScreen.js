@@ -36,7 +36,7 @@ const MainScreen = () => {
           ? <Loading />
           : <Row>
           {state.map((film, index) => (
-              <Col lg={3} md={6} sm={12} key={index + 1} className='d-flex justify-content-center'>
+              <Col lg={3} md={6} sm={12} key={index + 1} className='d-flex justify-content-center my-2'>
                 <CustomCard title={film.nazvanieFilm} body={film.kategoriqFilm} imgSrc={film.poster}/>
               </Col>
           ))}
