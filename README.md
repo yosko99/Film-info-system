@@ -49,33 +49,33 @@ npm run client - start frontend side
 
 # Routing
 
-For backend currently this is the setup i am using.
+For backend currently i have the following CRUD operations.
 
-![routing](https://user-images.githubusercontent.com/80975936/156515571-171e0ee3-b649-4f0d-922a-cecc5df5ffa3.png)
+![Routing](https://user-images.githubusercontent.com/80975936/156607020-a1ee0b67-14f3-4b1a-84c7-55b574db9fb1.png)
 
 ## Film routing
 
 ```
-GET - /api/film/          # Get all available films
-POST - /api/film/         # Recieves data and creates new film in the DB
-GET - /api/film/:id       # Get single film with provided film ID
-PUT - /api/film/          # Recieves data and then updates the provided film
-DELETE - /api/film/:id    # Deletes a film with provided film ID
+GET - /api/films/          # Get all available films
+POST - /api/films/         # Recieves data and creates new film in the DB
+GET - /api/films/:id       # Get single film with provided film ID
+PUT - /api/films/          # Recieves data and then updates the provided film
+DELETE - /api/films/:id    # Deletes a film with provided film ID
 ```
 
 ## Cinema routing
 
 ```
-GET - /api/cinema/          # Get all available cinemas
-POST - /api/cinema/         # Recieves data and creates new cinema in the DB
-GET - /api/cinema/:id       # Get single cinema with provided cinema ID
-PUT - /api/cinema/          # Recieves data and then updates the provided cinema
-DELETE - /api/cinema/:id    # Deletes a cinema with provided cinema ID
+GET - /api/cinemas/          # Get all available cinemas
+POST - /api/cinemas/         # Recieves data and creates new cinema in the DB
+GET - /api/cinemas/:id       # Get single cinema with provided cinema ID
+PUT - /api/cinemas/          # Recieves data and then updates the provided cinema
+DELETE - /api/cinemas/:id    # Deletes a cinema with provided cinema ID
 ```
 
 ## Project routing
 
 ```
-GET - /api/cinema/          # Get all available project dates
-POST - /api/cinema/         # Recieves data and creates new project date in the DB
+GET - /api/projects/          # Get all available project dates
+POST - /api/projects/         # Recieves data and creates new project date in the DB
 ```
