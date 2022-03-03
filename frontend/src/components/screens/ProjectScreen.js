@@ -12,13 +12,13 @@ const ProjectScreen = () => {
           btnText={'Добави нова дата на прежекция'}
           modalBody={
           <ManipulateData
-            link={'/api/project/'}
+            link={'/api/projects/'}
             inputValues={projectData.inputData}
             optionMenu={true}
               />}
         />
             <DataTable
-                link={'/api/project/'}
+                link={'/api/projects/'}
                 data={projectData.inputData}
                 showSetting={false}
             />

@@ -13,14 +13,14 @@ const FilmScreen = () => {
           btnText={'Добави нов филм'}
           modalBody={
             <ManipulateData
-              link={'/api/film/'}
+              link={'/api/films/'}
               inputValues={filmData.inputValues}
               formData={filmData.formData}
               />
             }
         />
             <DataTable
-                link={'/api/film/'}
+                link={'/api/films/'}
                 data={filmData.inputData}
             />
       </Container>

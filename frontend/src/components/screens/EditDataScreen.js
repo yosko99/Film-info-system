@@ -16,7 +16,7 @@ const EditDataScreen = () => {
   useEffect(() => {
     axios.get(`/api${window.location.pathname}`).then((response) => {
       // Check which route is entered to decide what data to load
-      apiRoute === 'cinema' ? setCurrentTableState(cinemaData) : setCurrentTableState(filmData);
+      apiRoute === 'cinemas' ? setCurrentTableState(cinemaData) : setCurrentTableState(filmData);
       setDataState(response.data[0]);
       setLoadingState(false);
     }).catch((err) => {

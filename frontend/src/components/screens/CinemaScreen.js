@@ -13,14 +13,14 @@ const CinemaScreen = () => {
           btnText={'Добави нов кинотеатър'}
           modalBody={
             <ManipulateData
-              link={'/api/cinema/'}
+              link={'/api/cinemas/'}
               inputValues={cinemaData.inputValues}
               formData={cinemaData.formData}
               />
             }
         />
             <DataTable
-                link={'/api/cinema/'}
+                link={'/api/cinemas/'}
                 data={cinemaData.inputData}
             />
       </Container>

@@ -9,9 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/project', projectRoutes);
-app.use('/api/cinema', cinemaRoutes);
-app.use('/api/film', filmRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/cinemas', cinemaRoutes);
+app.use('/api/films', filmRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

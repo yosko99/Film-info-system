@@ -1,5 +1,5 @@
 import { Form, Button, Col, Alert } from 'react-bootstrap';
-import  { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Loading from './Loading.component';
 import PropTypes from 'prop-types';
@@ -8,8 +8,10 @@ import axios from 'axios';
 const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValues = '' }) => {
   // TODO: Maybe make it more responsive and export functionality and components to other files
 
+  if (defaultValues !== '') {
+    var [headerState, setHeaderState] = useState(defaultValues[formData[0].id]);
+  }
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
-  const [headerState, setHeaderState] = useState(defaultValues[formData[0].id]);
   const [fetchResponseState, setFetchResponseState] = useState('');
   const [dataState, setDataState] = useState({ inputValues });
   const [validated, setValidated] = useState(false);
@@ -30,7 +32,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         variant: 'success'
       });
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -42,7 +44,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     } else {
       event.preventDefault();
 
-      if(defaultValues === '') {
+      if (defaultValues === '') {
         axios.post(link, {
           data: dataState
         }).then((response) => {
@@ -60,28 +62,28 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
           console.log(err.sqlState);
         });
       }
-      }
+    }
 
     setValidated(true);
   };
 
-  const { id } = useParams(); 
+  const { id } = useParams();
 
   const handleDelete = (e) => {
     e.preventDefault();
 
-    if(confirm('Наистина ли искате да изтриете данните?')) {
+    if (confirm('Наистина ли искате да изтриете данните?')) {
       // Link where you will be redirected after deletion
       const backUrl = `/${window.location.pathname.split('/')[1]}`;
 
-      axios.delete(link + id,).then((response) => {
+      axios.delete(link + id).then((response) => {
         alert('Данните са изтрити успешно!');
         navigate(backUrl);
       }).catch((err) => {
         console.log(err);
-      })
+      });
     }
-  }
+  };
 
   // Update form value states
   const handleChange = (e) => {
@@ -95,9 +97,9 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
   useEffect(() => {
     // Check whether option menu flag is set and fetch all film and cinema names
     if (optionMenu) {
-      axios.get(('/api/film/')).then((response) => {
+      axios.get(('/api/films/')).then((response) => {
         const films = response.data;
-        axios.get(('/api/cinema/')).then((response) => {
+        axios.get(('/api/cinemas/')).then((response) => {
           const cinemas = response.data;
           setOptionMenuState({ films: films, cinemas: cinemas });
         });
@@ -182,15 +184,15 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
             name='cenaBilet'
           />
           <Form.Control.Feedback type="valid">Изглежда добре!</Form.Control.Feedback>
-          <Form.Control.Feedback type="invalid">Въведи сума на билет > 0 !</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Въведи сума на билет по-голяма от 0 !</Form.Control.Feedback>
         </Form.Group>
         </>}
 
       {fetchResponseState !== '' && <Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert>}
 
-          {defaultValues === '' ? 
-           <Button type='submit' className='w-100 mt-2'>Добави</Button> : 
-           <>
+          {defaultValues === ''
+            ? <Button type='submit' className='w-100 mt-2'>Добави</Button>
+            : <>
              <Button type='submit' variant='success' className='w-50 mt-2 '>Редактирай</Button>
              <Button type='submit' variant='danger' onClick={(e) => handleDelete(e)} className='w-50 mt-2'>Изтрий</Button>
            </>
@@ -205,7 +207,7 @@ AddData.propTypes = {
   inputValues: PropTypes.object,
   optionMenu: PropTypes.bool,
   formData: PropTypes.array,
-  link: PropTypes.string,
+  link: PropTypes.string
 };
 
 export default AddData;

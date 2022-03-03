@@ -8,7 +8,7 @@ const MainScreen = () => {
   const [state, setState] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/film/').then((response) => {
+    axios.get('/api/films/').then((response) => {
       const films = response.data;
       const randomFilms = [];
 
