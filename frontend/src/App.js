@@ -6,6 +6,7 @@ import Header from './components/partials/Header.component';
 import Footer from './components/partials/Footer.component';
 import MainScreen from './components/screens/MainScreen';
 import FilmScreen from './components/screens/FilmScreen';
+import Screen404 from './components/screens/Screen404';
 import React from 'react';
 
 function App () {
@@ -20,6 +21,7 @@ function App () {
           <Route path='/cinemas' exact element={<CinemaScreen />}/>
           <Route path='/cinemas/:id' exact element={<EditDataScreen />}/>
           <Route path='/projects' exact element={<ProjectScreen />}/>
+          <Route path='/*' exact element={<Screen404 />}/>
         </Routes>
       </main>
       <Footer />
