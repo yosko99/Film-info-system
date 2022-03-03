@@ -3,6 +3,7 @@ import EditDataScreen from './components/screens/EditDataScreen';
 import ProjectScreen from './components/screens/ProjectScreen';
 import CinemaScreen from './components/screens/CinemaScreen';
 import Header from './components/partials/Header.component';
+import Footer from './components/partials/Footer.component';
 import MainScreen from './components/screens/MainScreen';
 import FilmScreen from './components/screens/FilmScreen';
 import React from 'react';
@@ -11,7 +12,7 @@ function App () {
   return (
     <Router>
       <Header />
-      <main style={{ minHeight: '80vh' }}>
+      <main style={{ minHeight: '90vh' }}>
         <Routes>
           <Route path='/' exact element={<MainScreen />}/>
           <Route path='/films' exact element={<FilmScreen />}/>
@@ -21,6 +22,7 @@ function App () {
           <Route path='/projects' exact element={<ProjectScreen />}/>
         </Routes>
       </main>
+      <Footer />
     </Router>
   );
 }
