@@ -1,4 +1,4 @@
-# Film database coursework
+# Film info system
 
 This project is using RENS stack (React, Express, Node, MySQL).
 Purpose of this project is to exercise with the database and learn React features.
@@ -45,4 +45,37 @@ You can start them independently with the following command.
 ```
 npm run server - start server side
 npm run client - start frontend side
+```
+
+# Routing
+
+For backend currently this is the setup i am using.
+
+![routing](https://user-images.githubusercontent.com/80975936/156515571-171e0ee3-b649-4f0d-922a-cecc5df5ffa3.png)
+
+## Film routing
+
+```
+GET - /api/film/          # Get all available films
+POST - /api/film/         # Recieves data and creates new film in the DB
+GET - /api/film/:id       # Get single film with provided film ID
+PUT - /api/film/          # Recieves data and then updates the provided film
+DELETE - /api/film/:id    # Deletes a film with provided film ID
+```
+
+## Cinema routing
+
+```
+GET - /api/cinema/          # Get all available cinemas
+POST - /api/cinema/         # Recieves data and creates new cinema in the DB
+GET - /api/cinema/:id       # Get single cinema with provided cinema ID
+PUT - /api/cinema/          # Recieves data and then updates the provided cinema
+DELETE - /api/cinema/:id    # Deletes a cinema with provided cinema ID
+```
+
+## Project routing
+
+```
+GET - /api/cinema/          # Get all available project dates
+POST - /api/cinema/         # Recieves data and creates new project date in the DB
 ```
