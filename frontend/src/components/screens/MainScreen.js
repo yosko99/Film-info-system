@@ -5,7 +5,7 @@ import Loading from '../Loading.component';
 import axios from 'axios';
 
 const MainScreen = () => {
-  const [state, setState] = useState([]);
+  const [state, setState] = useState('');
 
   useEffect(() => {
     axios.get('/api/films/').then((response) => {

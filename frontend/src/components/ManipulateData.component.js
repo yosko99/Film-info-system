@@ -2,6 +2,7 @@ import { Form, Button, Col, Alert } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Loading from './Loading.component';
+import Zoom from 'react-reveal/Zoom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
   // TODO: Maybe make it more responsive and export functionality and components to other files
 
   if (defaultValues !== '') {
+    // formData[0].id is usually the name for the table row like nazvanieFilm, nazvanieKinoteatyr etc.
     var [headerState, setHeaderState] = useState(defaultValues[formData[0].id]);
   }
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
@@ -36,6 +38,8 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    // Hide alert box
+    setFetchResponseState('');
 
     // Validate form
     if (form.checkValidity() === false) {
@@ -113,7 +117,6 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
     <>
     {/* Check whether option menu flag is set and print cycle of input or raw input */}
 
-    {/* TODO: Maybe update title on save */}
     {defaultValues !== '' && <h3 className='text-center my-2'>Редактирай {headerState}</h3>}
 
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -188,7 +191,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         </Form.Group>
         </>}
 
-      {fetchResponseState !== '' && <Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert>}
+        {fetchResponseState !== '' && <Zoom><Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert></Zoom>}
 
           {defaultValues === ''
             ? <Button type='submit' className='w-100 mt-2'>Добави</Button>
