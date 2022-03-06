@@ -70,6 +70,22 @@ router.get('/:id', asyncHandler(async (req, res) => {
   });
 }));
 
+// @desc Fetch all films with specific category
+// @route GET /api/films/categories/:category
+// @access Public
+router.get('/categories/:category', asyncHandler(async (req, res) => {
+  const { params: { category } } = req;
+  const query = `SELECT * FROM film WHERE kategoriqFilm = '${category}'`;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+}));
+
 // @desc Update film
 // @route PUT /api/film/
 // @access Public

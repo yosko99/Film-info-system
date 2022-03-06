@@ -17,7 +17,7 @@ const DataTable = ({ link, data, showSetting = true }) => {
     }).catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [link]);
 
   return (
     <>

@@ -3,6 +3,7 @@ import EditDataScreen from './components/screens/EditDataScreen';
 import ProjectScreen from './components/screens/ProjectScreen';
 import CinemaScreen from './components/screens/CinemaScreen';
 import Header from './components/partials/Header.component';
+import FilterScreen from './components/screens/FilterScreen';
 import Footer from './components/partials/Footer.component';
 import MainScreen from './components/screens/MainScreen';
 import FilmScreen from './components/screens/FilmScreen';
@@ -21,6 +22,7 @@ function App () {
           <Route path='/cinemas' exact element={<CinemaScreen />}/>
           <Route path='/cinemas/:id' exact element={<EditDataScreen />}/>
           <Route path='/projects' exact element={<ProjectScreen />}/>
+          <Route path='/filters/:id' exact element={<FilterScreen />}/>
           <Route path='/*' exact element={<Screen404 />}/>
         </Routes>
       </main>
