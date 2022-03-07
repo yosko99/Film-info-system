@@ -30,10 +30,10 @@ const EditDataScreen = () => {
         ? <Loading />
         : <Container className='mt-2'>
           <ManipulateData
-          link={`/api/${apiRoute}/`}
-          inputValues={currentTableState.inputData}
-          formData={currentTableState.formData}
-          defaultValues={dataState}
+            link={`/api/${apiRoute}/`}
+            inputValues={currentTableState.inputData}
+            formData={currentTableState.formData}
+            defaultValues={dataState}
           />
       </Container>
     }

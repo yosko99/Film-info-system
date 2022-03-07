@@ -41,4 +41,20 @@ router.post('/', asyncHandler(async (req, res) => {
   });
 }));
 
+// @desc Fetch all dates with specific kod film
+// @route GET /api/projects/film/:id
+// @access Public
+router.get('/film/:id', asyncHandler(async (req, res) => {
+  const { params: { id } } = req;
+  const query = `SELECT dataProjekciq FROM projektira WHERE kodFilm = '${id}'`;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+}));
+
 module.exports = router;

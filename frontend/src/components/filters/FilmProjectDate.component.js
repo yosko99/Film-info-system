@@ -4,11 +4,10 @@ import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
-import filmData from '../../data/filmData';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const FilmByCategory = () => {
+const FilmByProjectDate = () => {
   const [dataTableState, setDataTableState] = useState('');
   const [filmsState, setFilmsState] = useState('');
   const navigate = useNavigate();
@@ -16,22 +15,18 @@ const FilmByCategory = () => {
 
   const handleChange = (e) => {
     categoryURL.current = decodedSearch();
-    setDataTableState(<DataTable link={'/api/films/category/' + e.target.value} showSetting={false} data={filmData.inputData}/>);
+    setDataTableState(<DataTable link={'/api/projects/film/' + e.target.value} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }}/>);
     navigate('?' + getSubmitUrl());
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
       categoryURL.current = decodedSearch();
-      setDataTableState(<DataTable link={'/api/films/category/' + categoryURL.current} showSetting={false} data={filmData.inputData} />);
+      setDataTableState(<DataTable link={'/api/projects/film/' + categoryURL.current} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
     }
 
     axios.get('/api/films/').then((response) => {
-      const distinctCategories = new Set();
-      response.data.forEach((film) => {
-        distinctCategories.add(film.kategoriqFilm);
-      });
-      setFilmsState(Array.from(distinctCategories));
+      setFilmsState(response.data);
     }).catch((err) => {
       console.log(err);
     });
@@ -39,24 +34,25 @@ const FilmByCategory = () => {
 
   return (
     <>
-    <h3 className='text-center my-2'>{categoryURL.current !== '' ? 'Филми под категория ' + decodedSearch() : 'Филми по зададена категория'}</h3>
+    <h3 className='text-center my-2'>По избран филм да се изведе дата на прожекция</h3>
     {filmsState === ''
       ? <Loading />
       : <Form type='get'>
       <Form.Group className="mb-3" controlId="categoryName">
-        <Form.Label>Категория на филм</Form.Label>
-        <Form.Select name='categoryName' onChange={(e) => handleChange(e)} defaultValue={categoryURL.current}>
+        <Form.Label>Заглавие на филм</Form.Label>
+        <Form.Select name='nazvanieFilm' onChange={(e) => handleChange(e)} defaultValue={categoryURL.current}>
         {filmsState.map((film, index) => (
-          <option value={film} key={index + 1 }>{film}</option>
+          <option value={film.kodFilm} key={index + 1 }>{film.nazvanieFilm}</option>
         ))}
         </Form.Select>
       </Form.Group>
     </Form>
     }
+
     { dataTableState }
 
     </>
   );
 };
 
-export default FilmByCategory;
+export default FilmByProjectDate;

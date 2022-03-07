@@ -1,3 +1,4 @@
+import FilmProjectDate from '../filters/FilmProjectDate.component';
 import FilmByCategory from '../filters/FilmByCategory.component';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,8 +13,11 @@ const FilterScreen = () => {
       case '1':
         setFormState(<FilmByCategory/>);
         break;
+      case '2':
+        setFormState(<FilmProjectDate/>);
+        break;
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container className='mt-2'>

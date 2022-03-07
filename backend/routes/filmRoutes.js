@@ -71,9 +71,9 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // @desc Fetch all films with specific category
-// @route GET /api/films/categories/:category
+// @route GET /api/films/category/:category
 // @access Public
-router.get('/categories/:category', asyncHandler(async (req, res) => {
+router.get('/category/:category', asyncHandler(async (req, res) => {
   const { params: { category } } = req;
   const query = `SELECT * FROM film WHERE kategoriqFilm = '${category}'`;
 
