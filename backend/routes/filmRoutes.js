@@ -4,7 +4,7 @@ const router = require('express').Router();
 const db = require('../config/db');
 
 // @desc Fetch all films
-// @route GET /api/film/
+// @route GET /api/films/
 // @access Public
 router.get('/', asyncHandler(async (req, res) => {
   const query = 'SELECT * FROM film';
@@ -13,7 +13,7 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Add a new film
-// @route POST /api/film/
+// @route POST /api/films/
 // @access Public
 router.post('/', asyncHandler(async (req, res) => {
   const idQuery = 'SELECT MAX(kodFilm) as maxID FROM film';
@@ -44,7 +44,7 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Fetch single film with provided film ID
-// @route GET /api/film/:id
+// @route GET /api/films/:id
 // @access Public
 router.get('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
@@ -64,7 +64,7 @@ router.get('/category/:category', asyncHandler(async (req, res) => {
 }));
 
 // @desc Update film
-// @route PUT /api/film/
+// @route PUT /api/films/
 // @access Public
 router.put('/', asyncHandler(async (req, res) => {
   const query = 'UPDATE film SET nazvanieFilm = ?, rejisyorFilm = ?, kompozitorFilm = ?, tematikaFilm = ?, kategoriqFilm = ?, scenaristFilm = ? WHERE kodFilm = ?';
@@ -75,11 +75,21 @@ router.put('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Delete single film with provided ID
-// @route DELETE /api/film/:id
+// @route DELETE /api/films/:id
 // @access Public
 router.delete('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM film WHERE kodFilm = ${id} LIMIT 1`;
+
+  dbQuery(query, res);
+}));
+
+// @desc Fetch all films between two dates
+// @route GET /api/films/date
+// @access Public
+router.get('/date/:min/:max', asyncHandler(async (req, res) => {
+  const { params: { min, max } } = req;
+  const query = `SELECT nazvanieFilm FROM film WHERE kodFilm IN (SELECT kodFilm FROM projektira WHERE dataProjekciq BETWEEN '${min}' AND '${max}')`;
 
   dbQuery(query, res);
 }));

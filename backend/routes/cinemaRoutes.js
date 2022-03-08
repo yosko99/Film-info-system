@@ -4,7 +4,7 @@ const router = require('express').Router();
 const db = require('../config/db');
 
 // @desc Fetch all cinemas
-// @route GET /api/cinema/
+// @route GET /api/cinemas/
 // @access Public
 router.get('/', asyncHandler(async (req, res) => {
   const query = 'SELECT * FROM kinoteatyr';
@@ -13,7 +13,7 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Add a new cinema
-// @route POST /api/cinema/
+// @route POST /api/cinemas/
 // @access Public
 router.post('/', asyncHandler(async (req, res) => {
   const idQuery = 'SELECT MAX(kodKinoteatyr) as maxID FROM kinoteatyr';
@@ -43,7 +43,7 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Fetch single cinema with provided cinema ID
-// @route GET /api/cinema/:id
+// @route GET /api/cinemas/:id
 // @access Public
 router.get('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
@@ -53,7 +53,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // @desc Update cinema
-// @route PUT /api/cinema/
+// @route PUT /api/cinemas/
 // @access Public
 router.put('/', asyncHandler(async (req, res) => {
   const query = 'UPDATE kinoteatyr SET nazvanieKinoteatyr = ?, adresKinoteatyr = ?, kategoriqKinoteatyr = ?, imeDirektor = ?, kinorazpredelitel = ? WHERE kodKinoteatyr = ?';
@@ -64,7 +64,7 @@ router.put('/', asyncHandler(async (req, res) => {
 }));
 
 // @desc Delete single cinema with provided ID
-// @route DELETE /api/cinema/:id
+// @route DELETE /api/cinemas/:id
 // @access Public
 router.delete('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;

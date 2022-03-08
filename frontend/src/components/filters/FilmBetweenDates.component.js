@@ -1,32 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react';
-import decodedSearch from '../../functions/decodedSearch';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Form, Col } from 'react-bootstrap';
 import Loading from '../Loading.component';
-import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const FilmByProjectDate = () => {
+  const [datesState, setDatesState] = useState({ minDate: '', maxDate: '' });
   const [dataTableState, setDataTableState] = useState('');
-  const [filmsState, setFilmsState] = useState('');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const categoryURL = useRef('');
 
   const handleChange = (e) => {
-    categoryURL.current = decodedSearch();
-    setDataTableState(<DataTable link={'/api/projects/film/' + e.target.value} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }}/>);
     navigate('?' + getSubmitUrl());
+    console.log(getSubmitUrl().split('='));
+    setDataTableState(<DataTable link={`/api/films/date/${searchParams.get('minDataProjekciq')} / ${searchParams.get('maxDataProjekciq')}`} showSetting={false} data={{ nazvanieFilm: 'Название на филм' }}/>);
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
-      categoryURL.current = decodedSearch();
-      setDataTableState(<DataTable link={'/api/projects/film/' + categoryURL.current} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
+      setDataTableState(<DataTable link={`/api/films/date/${searchParams.get('minDataProjekciq')} / ${searchParams.get('maxDataProjekciq')}`} showSetting={false} data={{ nazvanieFilm: 'Название на филм' }} />);
     }
 
-    axios.get('/api/films/').then((response) => {
-      setFilmsState(response.data);
+    // Get recent date for a film and last
+    axios.get('/api/projects/date?min').then((response) => {
+      const minDate = Object.values(response.data[0])[0].substring(0, 10);
+      axios.get('/api/projects/date?max').then((response) => {
+        const maxDate = Object.values(response.data[0])[0].substring(0, 10);
+        setDatesState({ minDate, maxDate });
+      }).catch((err) => {
+        console.log(err);
+      });
     }).catch((err) => {
       console.log(err);
     });
@@ -34,18 +39,34 @@ const FilmByProjectDate = () => {
 
   return (
     <>
-    <h3 className='text-center my-2'>По избран филм да се изведе дата на прожекция</h3>
-    {filmsState === ''
+    <h3 className='text-center my-2'>Имена на филми прожектирани между дати</h3>
+    {datesState.minDate === ''
       ? <Loading />
       : <Form type='get'>
-      <Form.Group className="mb-3" controlId="categoryName">
-        <Form.Label>Заглавие на филм</Form.Label>
-        <Form.Select name='nazvanieFilm' onChange={(e) => handleChange(e)} defaultValue={categoryURL.current}>
-        {filmsState.map((film, index) => (
-          <option value={film.kodFilm} key={index + 1 }>{film.nazvanieFilm}</option>
-        ))}
-        </Form.Select>
-      </Form.Group>
+          <Form.Group as={Col} className='mb-3' controlId={'minDataProjekciq'}>
+            <Form.Label>Начална дата</Form.Label>
+            <Form.Control
+              required
+              onChange={(e) => handleChange(e)}
+              type='date'
+              name='minDataProjekciq'
+              min={datesState.minDate}
+              max={datesState.maxDate}
+              defaultValue={searchParams.get('minDataProjekciq') || datesState.minDate}
+            />
+          </Form.Group>
+          <Form.Group as={Col} className='mb-3' controlId={'maxDataProjekciq'}>
+            <Form.Label>Крайна дата</Form.Label>
+            <Form.Control
+              required
+              onChange={(e) => handleChange(e)}
+              type='date'
+              name='maxDataProjekciq'
+              min={datesState.minDate}
+              max={datesState.maxDate}
+              defaultValue={searchParams.get('maxDataProjekciq') || datesState.maxDate}
+            />
+          </Form.Group>
     </Form>
     }
 

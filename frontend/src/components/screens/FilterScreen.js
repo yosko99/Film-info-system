@@ -1,6 +1,5 @@
-import FilmProjectDate from '../filters/FilmProjectDate.component';
-import FilmByCategory from '../filters/FilmByCategory.component';
 import React, { useState, useEffect } from 'react';
+import filters from '../filters/exportedFilters';
 import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
@@ -11,10 +10,13 @@ const FilterScreen = () => {
   useEffect(() => {
     switch (id) {
       case '1':
-        setFormState(<FilmByCategory/>);
+        setFormState(<filters.FilmByCategory />);
         break;
       case '2':
-        setFormState(<FilmProjectDate/>);
+        setFormState(<filters.FilmProjectDate />);
+        break;
+      case '3':
+        setFormState(<filters.FilmBetweenDates />);
         break;
     }
   }, [id]);

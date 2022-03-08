@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import decodedSearch from '../../functions/decodedSearch';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
-import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
@@ -10,19 +9,17 @@ import axios from 'axios';
 const FilmByProjectDate = () => {
   const [dataTableState, setDataTableState] = useState('');
   const [filmsState, setFilmsState] = useState('');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const categoryURL = useRef('');
 
   const handleChange = (e) => {
-    categoryURL.current = decodedSearch();
     setDataTableState(<DataTable link={'/api/projects/film/' + e.target.value} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }}/>);
     navigate('?' + getSubmitUrl());
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
-      categoryURL.current = decodedSearch();
-      setDataTableState(<DataTable link={'/api/projects/film/' + categoryURL.current} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
+      setDataTableState(<DataTable link={'/api/projects/film/' + searchParams.get('kodFilm')} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
     }
 
     axios.get('/api/films/').then((response) => {
@@ -38,9 +35,9 @@ const FilmByProjectDate = () => {
     {filmsState === ''
       ? <Loading />
       : <Form type='get'>
-      <Form.Group className="mb-3" controlId="categoryName">
+      <Form.Group className="mb-3" controlId="kodFilm">
         <Form.Label>Заглавие на филм</Form.Label>
-        <Form.Select name='nazvanieFilm' onChange={(e) => handleChange(e)} defaultValue={categoryURL.current}>
+        <Form.Select name='kodFilm' onChange={(e) => handleChange(e)} defaultValue={searchParams.get('kodFilm') || ''}>
         {filmsState.map((film, index) => (
           <option value={film.kodFilm} key={index + 1 }>{film.nazvanieFilm}</option>
         ))}
