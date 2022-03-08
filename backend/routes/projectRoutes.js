@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
+const dbQuery = require('./function/dbQuery');
 const router = require('express').Router();
-const db = require('../config/db');
 
 // @desc Fetch all project dates
 // @route GET /api/project/
@@ -8,13 +8,7 @@ const db = require('../config/db');
 router.get('/', asyncHandler(async (req, res) => {
   const query = 'SELECT * FROM projektira';
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Add new project date
@@ -32,13 +26,7 @@ router.post('/', asyncHandler(async (req, res) => {
     kodFilm
   };
 
-  db.query(query, project, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res, project);
 }));
 
 // @desc Fetch all dates with specific kod film
@@ -48,13 +36,7 @@ router.get('/film/:id', asyncHandler(async (req, res) => {
   const { params: { id } } = req;
   const query = `SELECT dataProjekciq FROM projektira WHERE kodFilm = '${id}'`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 module.exports = router;

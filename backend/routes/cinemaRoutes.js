@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const dbQuery = require('./function/dbQuery');
 const router = require('express').Router();
 const db = require('../config/db');
 
@@ -8,13 +9,7 @@ const db = require('../config/db');
 router.get('/', asyncHandler(async (req, res) => {
   const query = 'SELECT * FROM kinoteatyr';
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Add a new cinema
@@ -42,13 +37,7 @@ router.post('/', asyncHandler(async (req, res) => {
       const maxID = idResult[0].maxID + 1;
       cinema.kodKinoteatyr = maxID;
 
-      db.query(query, cinema, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(result);
-        }
-      });
+      dbQuery(query, res, cinema);
     }
   });
 }));
@@ -60,13 +49,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM kinoteatyr WHERE kodKinoteatyr = ${id}`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Update cinema
@@ -75,14 +58,9 @@ router.get('/:id', asyncHandler(async (req, res) => {
 router.put('/', asyncHandler(async (req, res) => {
   const query = 'UPDATE kinoteatyr SET nazvanieKinoteatyr = ?, adresKinoteatyr = ?, kategoriqKinoteatyr = ?, imeDirektor = ?, kinorazpredelitel = ? WHERE kodKinoteatyr = ?';
   const { body: { data: { kodKinoteatyr, nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel } } } = req;
+  const data = [nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel, kodKinoteatyr];
 
-  db.query(query, [nazvanieKinoteatyr, adresKinoteatyr, kategoriqKinoteatyr, imeDirektor, kinorazpredelitel, kodKinoteatyr], (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res, data);
 }));
 
 // @desc Delete single cinema with provided ID
@@ -92,13 +70,7 @@ router.delete('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM kinoteatyr WHERE kodKinoteatyr = ${id} LIMIT 1`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 module.exports = router;

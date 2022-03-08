@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const dbQuery = require('./function/dbQuery');
 const router = require('express').Router();
 const db = require('../config/db');
 
@@ -8,13 +9,7 @@ const db = require('../config/db');
 router.get('/', asyncHandler(async (req, res) => {
   const query = 'SELECT * FROM film';
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Add a new film
@@ -43,13 +38,7 @@ router.post('/', asyncHandler(async (req, res) => {
       const maxID = idResult[0].maxID + 1;
       film.kodFilm = maxID;
 
-      db.query(query, film, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(result);
-        }
-      });
+      dbQuery(query, res, film);
     }
   });
 }));
@@ -61,13 +50,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM film WHERE kodFilm = ${id}`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Fetch all films with specific category
@@ -77,13 +60,7 @@ router.get('/category/:category', asyncHandler(async (req, res) => {
   const { params: { category } } = req;
   const query = `SELECT * FROM film WHERE kategoriqFilm = '${category}'`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 // @desc Update film
@@ -92,14 +69,9 @@ router.get('/category/:category', asyncHandler(async (req, res) => {
 router.put('/', asyncHandler(async (req, res) => {
   const query = 'UPDATE film SET nazvanieFilm = ?, rejisyorFilm = ?, kompozitorFilm = ?, tematikaFilm = ?, kategoriqFilm = ?, scenaristFilm = ? WHERE kodFilm = ?';
   const { body: { data: { kodFilm, nazvanieFilm, kategoriqFilm, kompozitorFilm, rejisyorFilm, scenaristFilm, tematikaFilm } } } = req;
+  const data = [nazvanieFilm, rejisyorFilm, kompozitorFilm, tematikaFilm, kategoriqFilm, scenaristFilm, kodFilm];
 
-  db.query(query, [nazvanieFilm, rejisyorFilm, kompozitorFilm, tematikaFilm, kategoriqFilm, scenaristFilm, kodFilm], (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res, data);
 }));
 
 // @desc Delete single film with provided ID
@@ -109,13 +81,7 @@ router.delete('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM film WHERE kodFilm = ${id} LIMIT 1`;
 
-  db.query(query, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  dbQuery(query, res);
 }));
 
 module.exports = router;

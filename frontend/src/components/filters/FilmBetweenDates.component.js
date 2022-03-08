@@ -4,7 +4,6 @@ import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
-import filmData from '../../data/filmData';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -16,14 +15,14 @@ const FilmByProjectDate = () => {
 
   const handleChange = (e) => {
     categoryURL.current = decodedSearch();
-    setDataTableState(<DataTable link={'/api/films/projects/' + e.target.value} showSetting={false} data={filmData.inputData}/>);
+    setDataTableState(<DataTable link={'/api/projects/film/' + e.target.value} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }}/>);
     navigate('?' + getSubmitUrl());
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
       categoryURL.current = decodedSearch();
-      setDataTableState(<DataTable link={'/api/films/projects/' + categoryURL.current} showSetting={false} data={filmData.inputData} />);
+      setDataTableState(<DataTable link={'/api/projects/film/' + categoryURL.current} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
     }
 
     axios.get('/api/films/').then((response) => {
