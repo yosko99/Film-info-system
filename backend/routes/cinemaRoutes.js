@@ -68,8 +68,10 @@ router.put('/', asyncHandler(async (req, res) => {
 // @access Public
 router.delete('/:id', asyncHandler(async (req, res) => {
   const id = req.params.id;
+  const relationDeleteQuery = `DELETE FROM projektira WHERE kodKinoteatyr = ${id}`;
   const query = `DELETE FROM kinoteatyr WHERE kodKinoteatyr = ${id} LIMIT 1`;
 
+  db.query(relationDeleteQuery);
   dbQuery(query, res);
 }));
 
