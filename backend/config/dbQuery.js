@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('./db');
 
 const basicQuery = (query, res, optionalData = []) => {
   db.query(query, optionalData, (err, result) => {

@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const dbQuery = require('./function/dbQuery');
+const dbQuery = require('../config/dbQuery');
 const router = require('express').Router();
 
 // @desc Fetch all project dates
