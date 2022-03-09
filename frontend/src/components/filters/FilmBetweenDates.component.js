@@ -1,3 +1,4 @@
+import stripQueryFromUrl from '../../functions/stripQueryFromUrl';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
@@ -14,13 +15,20 @@ const FilmByProjectDate = () => {
 
   const handleChange = (e) => {
     navigate('?' + getSubmitUrl());
-    console.log(getSubmitUrl().split('='));
-    setDataTableState(<DataTable link={`/api/films/date/${searchParams.get('minDataProjekciq')} / ${searchParams.get('maxDataProjekciq')}`} showSetting={false} data={{ nazvanieFilm: 'Название на филм' }}/>);
+    setDataTableState(<DataTable
+                        link={`/api/films/date/${stripQueryFromUrl('minDataProjekciq')} / ${stripQueryFromUrl('maxDataProjekciq')}`}
+                        showSetting={false}
+                        data={{ nazvanieFilm: 'Название на филм' }}
+                      />);
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
-      setDataTableState(<DataTable link={`/api/films/date/${searchParams.get('minDataProjekciq')} / ${searchParams.get('maxDataProjekciq')}`} showSetting={false} data={{ nazvanieFilm: 'Название на филм' }} />);
+      setDataTableState(<DataTable
+                          link={`/api/films/date/${searchParams.get('minDataProjekciq')} / ${searchParams.get('maxDataProjekciq')}`}
+                          showSetting={false}
+                          data={{ nazvanieFilm: 'Название на филм' }}
+                        />);
     }
 
     // Get recent date for a film and last
