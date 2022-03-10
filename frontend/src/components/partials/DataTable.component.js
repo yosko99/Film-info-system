@@ -6,19 +6,28 @@ import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const DataTable = ({ link, data, showSetting = true }) => {
+const DataTable = ({ link, data, showSetting = true, optionalData = '' }) => {
   const [loadingState, setLoadingState] = useState(true);
   const [dataState, setDataState] = useState([]);
 
   // Fetch data on component load depending on passed route
   useEffect(() => {
     setLoadingState(true);
-    axios.get(link).then((response) => {
-      setDataState(response.data);
-      setLoadingState(false);
-    }).catch((err) => {
-      console.log(err);
-    });
+    if (optionalData !== '') {
+      axios.post(link, { data: optionalData }).then((response) => {
+        setDataState(response.data);
+        setLoadingState(false);
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      axios.get(link).then((response) => {
+        setDataState(response.data);
+        setLoadingState(false);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }, [link]);
 
   return (
@@ -65,6 +74,7 @@ const DataTable = ({ link, data, showSetting = true }) => {
 DataTable.propTypes = {
   link: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
+  optionalData: PropTypes.object,
   showSetting: PropTypes.bool
 };
 

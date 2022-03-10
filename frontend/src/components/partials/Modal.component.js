@@ -2,24 +2,29 @@ import { Button, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const ModalForm = ({ btnText, modalBody }) => {
+const ModalForm = ({ btnText, modalBody, onClick }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
     setShow(false);
     window.location.reload(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = (e) => {
+    if (onClick !== undefined) {
+      onClick(e);
+    }
+    setShow(true);
+  };
 
   return (
       <>
       <div className='d-flex justify-content-center'>
-        <Button variant="primary" className='w-50 mb-2' onClick={handleShow}>
+        <Button variant="primary" className='' onClick={(e) => handleShow(e)}>
           {btnText}
         </Button>
       </div>
 
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={() => setShow(false)}>
           <Modal.Header closeButton>
             <Modal.Title>{btnText}</Modal.Title>
           </Modal.Header>
@@ -38,7 +43,8 @@ const ModalForm = ({ btnText, modalBody }) => {
 
 ModalForm.propTypes = {
   btnText: PropTypes.string.isRequired,
-  modalBody: PropTypes.any.isRequired
+  modalBody: PropTypes.any.isRequired,
+  onClick: PropTypes.func
 };
 
 export default ModalForm;

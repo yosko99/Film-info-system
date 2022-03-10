@@ -1,5 +1,6 @@
 const [notFound, errorHandler] = require('./middleware/errorMiddleware');
 const projectRoutes = require('./routes/projectRoutes');
+const dynamicRoute = require('./routes/dynamicRoute');
 const cinemaRoutes = require('./routes/cinemaRoutes');
 const filmRoutes = require('./routes/filmRoutes');
 const express = require('express');
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/dynamicQuery', dynamicRoute);
 app.use('/api/projects', projectRoutes);
 app.use('/api/cinemas', cinemaRoutes);
 app.use('/api/films', filmRoutes);
