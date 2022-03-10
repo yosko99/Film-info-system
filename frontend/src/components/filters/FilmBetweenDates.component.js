@@ -14,7 +14,7 @@ const FilmByProjectDate = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    navigate('?' + getSubmitUrl());
+    navigate('?' + getSubmitUrl('filmBetweenDatesForm'));
     setDataTableState(<DataTable
                         link={`/api/films/date/${stripQueryFromUrl('minDataProjekciq')} / ${stripQueryFromUrl('maxDataProjekciq')}`}
                         showSetting={false}
@@ -50,7 +50,7 @@ const FilmByProjectDate = () => {
     <h3 className='text-center my-2'>Имена на филми прожектирани между дати</h3>
     {datesState.minDate === ''
       ? <Loading />
-      : <Form type='get'>
+      : <Form type='get' id="filmBetweenDatesForm">
           <Form.Group as={Col} className='mb-3' controlId={'minDataProjekciq'}>
             <Form.Label>Начална дата</Form.Label>
             <Form.Control

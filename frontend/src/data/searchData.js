@@ -1,24 +1,24 @@
 exports.searchData = [
   {
-    id: 'filmUnder',
+    id: 'nazvanieFilm',
+    rowText: 'Название на филм',
     text: 'филми под',
-    category: 'филм',
     query: 'SELECT nazvanieFilm FROM film WHERE kodFilm IN (SELECT kodFilm FROM projektira WHERE cenaBilet < ? )'
   },
   {
-    id: 'filmHigher',
+    id: 'nazwanieFilm',
+    rowText: 'Название на филм',
     text: 'филми над',
-    category: 'филм',
     query: 'SELECT nazvanieFilm FROM film WHERE kodFilm IN (SELECT kodFilm FROM projektira WHERE cenaBilet > ? )'
   },
   {
-    id: 'cinemaUnder',
-    text: 'кино под',
-    category: 'кино'
+    id: 'nazvanieKinoteatyr',
+    rowText: 'Название на кинотеатър',
+    text: 'кино под'
   },
   {
-    id: 'cinemaHigher',
-    text: 'кино над',
-    category: 'кино'
+    id: 'nazvanieKinoteatyr',
+    rowText: 'Название на кинотеатър',
+    text: 'кино над'
   }
 ];
