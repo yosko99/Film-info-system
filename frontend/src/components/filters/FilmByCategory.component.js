@@ -30,7 +30,7 @@ const FilmByCategory = () => {
       });
       setFilmsState(Array.from(distinctCategories));
     }).catch((err) => {
-      console.log(err);
+      navigate('/404', { state: { err } });
     });
   }, []);
 

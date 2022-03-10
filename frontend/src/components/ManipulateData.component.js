@@ -54,7 +54,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         }).then((response) => {
           responseUpdate(response);
         }).catch((err) => {
-          console.log(err.sqlState);
+          navigate('/404', { state: { err } });
         });
       } else {
         axios.put(link, {
@@ -63,7 +63,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
           responseUpdate(response);
           setHeaderState(dataState[formData[0].id]);
         }).catch((err) => {
-          console.log(err.sqlState);
+          navigate('/404', { state: { err } });
         });
       }
     }
@@ -84,7 +84,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         alert('Данните са изтрити успешно!');
         navigate(backUrl);
       }).catch((err) => {
-        console.log(err);
+        navigate('/404', { state: { err } });
       });
     }
   };

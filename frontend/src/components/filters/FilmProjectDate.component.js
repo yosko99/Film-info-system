@@ -25,7 +25,7 @@ const FilmByProjectDate = () => {
     axios.get('/api/films/').then((response) => {
       setFilmsState(response.data);
     }).catch((err) => {
-      console.log(err);
+      navigate('/404', { state: { err } });
     });
   }, []);
 

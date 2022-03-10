@@ -1,11 +1,13 @@
 import CustomCard from '../partials/CustomCard.component';
 import { Container, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
 import axios from 'axios';
 
 const MainScreen = () => {
   const [state, setState] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('/api/films/').then((response) => {
@@ -21,11 +23,11 @@ const MainScreen = () => {
           randomFilms.push(film);
           randomFilms.length === 4 && setState(randomFilms);
         }).catch((err) => {
-          console.log(err);
+          navigate('/404', { state: { err } });
         });
       }
     }).catch((err) => {
-      console.log(err);
+      navigate('/404', { state: { err } });
     });
   }, []);
 

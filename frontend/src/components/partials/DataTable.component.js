@@ -1,6 +1,7 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ import axios from 'axios';
 const DataTable = ({ link, data, showSetting = true, optionalData = '' }) => {
   const [loadingState, setLoadingState] = useState(true);
   const [dataState, setDataState] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch data on component load depending on passed route
   useEffect(() => {
@@ -18,14 +20,14 @@ const DataTable = ({ link, data, showSetting = true, optionalData = '' }) => {
         setDataState(response.data);
         setLoadingState(false);
       }).catch((err) => {
-        console.log(err);
+        navigate('/404', { state: { err } });
       });
     } else {
       axios.get(link).then((response) => {
         setDataState(response.data);
         setLoadingState(false);
       }).catch((err) => {
-        console.log(err);
+        navigate('/404', { state: { err } });
       });
     }
   }, [link]);

@@ -38,10 +38,10 @@ const FilmByProjectDate = () => {
         const maxDate = Object.values(response.data[0])[0].substring(0, 10);
         setDatesState({ minDate, maxDate });
       }).catch((err) => {
-        console.log(err);
+        navigate('/404', { state: { err } });
       });
     }).catch((err) => {
-      console.log(err);
+      navigate('/404', { state: { err } });
     });
   }, []);
 
