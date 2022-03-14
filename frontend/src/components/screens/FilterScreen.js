@@ -18,6 +18,9 @@ const FilterScreen = () => {
       case '3':
         setFormState(<filters.FilmBetweenDates />);
         break;
+      case '4':
+        setFormState(<filters.FilmNameHighestValue />);
+        break;
     }
   }, [id]);
 

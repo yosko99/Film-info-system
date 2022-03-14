@@ -34,3 +34,11 @@ exports.getMinMaxDate = async (req, res) => {
 
   dbQuery(query, res);
 };
+
+exports.getMaxPrice = async (req, res) => {
+  const query = `
+    SELECT nazvanieFilm from film WHERE kodFilm in 
+      (SELECT kodFilm FROM projektira WHERE cenaBilet = (SELECT MAX(cenaBilet) FROM projektira))`;
+
+  dbQuery(query, res);
+};

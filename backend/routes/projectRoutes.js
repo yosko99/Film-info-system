@@ -22,4 +22,9 @@ router.get('/film/:id', asyncHandler(projectController.getDatesWithFilmID));
 // @access Public
 router.get('/date', asyncHandler(projectController.getMinMaxDate));
 
+// @desc Fetch name of film with highest value
+// @route GET /api/projects/max/price
+// @access Public
+router.get('/max/price', asyncHandler(projectController.getMaxPrice));
+
 module.exports = router;
