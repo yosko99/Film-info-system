@@ -1,5 +1,6 @@
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import HeaderFilters from './HeaderFilters.component';
 import SearchBar from './SearchBar.component';
 import React from 'react';
 
@@ -26,20 +27,7 @@ const Header = () => {
                     <LinkContainer to="/projects">
                         <Nav.Link>Прожекции</Nav.Link>
                     </LinkContainer>
-                    <NavDropdown title="Филтри" id="collasible-nav-dropdown">
-                        <LinkContainer to='/filters/1'>
-                            <NavDropdown.Item >Справка 1</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/filters/2'>
-                            <NavDropdown.Item >Справка 2</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/filters/3'>
-                            <NavDropdown.Item >Справка 3</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to='/filters/4'>
-                            <NavDropdown.Item >Справка 4 </NavDropdown.Item>
-                        </LinkContainer>
-                    </NavDropdown>
+                    <HeaderFilters />
                 </Nav>
                 <Nav>
                     <SearchBar />

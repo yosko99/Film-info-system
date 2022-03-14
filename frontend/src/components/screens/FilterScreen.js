@@ -21,6 +21,9 @@ const FilterScreen = () => {
       case '4':
         setFormState(<filters.FilmNameHighestValue />);
         break;
+      case '5':
+        setFormState(<filters.DateMostProjects />);
+        break;
     }
   }, [id]);
 

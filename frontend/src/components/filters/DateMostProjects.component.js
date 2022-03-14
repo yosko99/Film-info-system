@@ -4,12 +4,15 @@ import axios from 'axios';
 
 const FilmNameHighestValue = () => {
   const [loading, setLoading] = useState(true);
-  const [filmName, setFilmName] = useState('');
+  const [date, setDate] = useState({
+    date: '',
+    numTimes: ''
+  });
 
   useEffect(() => {
-    axios.get('/api/projects/max/price').then((response) => {
-      const { data: [{ nazvanieFilm }] } = response;
-      setFilmName(nazvanieFilm);
+    axios.get('/api/projects/date/countMost').then((response) => {
+      const { data: [{ broiProjekcii: numTimes, dataProjekciq: date }] } = response;
+      setDate({ date, numTimes });
       setLoading(false);
     });
   });
@@ -18,8 +21,8 @@ const FilmNameHighestValue = () => {
     {loading
       ? <Loading />
       : <div style={{ height: '80vh' }} className='d-flex justify-content-center align-items-center flex-column'>
-          <h2 className='mb-2'>Филм с най-скъп билет</h2>
-          <h3>Название на филм: {filmName}</h3>
+          <h2 className='mb-2'>Дата с най-много излъчвани филми</h2>
+          <h3>През {date.date} са били излъчени {date.numTimes} филма</h3>
         </div>
     }
     </>

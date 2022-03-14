@@ -42,3 +42,14 @@ exports.getMaxPrice = async (req, res) => {
 
   dbQuery(query, res);
 };
+
+exports.getDateWithMostProjects = async (req, res) => {
+  const query = `
+    SELECT COUNT(projektira.dataProjekciq) as broiProjekcii,
+    projektira.dataProjekciq
+    FROM projektira
+    GROUP BY projektira.dataProjekciq
+    ORDER BY COUNT(projektira.dataProjekciq) DESC LIMIT 1;`;
+
+  dbQuery(query, res);
+};

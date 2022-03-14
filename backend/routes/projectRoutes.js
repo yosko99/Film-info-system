@@ -27,4 +27,9 @@ router.get('/date', asyncHandler(projectController.getMinMaxDate));
 // @access Public
 router.get('/max/price', asyncHandler(projectController.getMaxPrice));
 
+// @desc Fetch date with most projects and number of times
+// @route GET /api/projects/date/countMost
+// @access Public
+router.get('/date/countMost', asyncHandler(projectController.getDateWithMostProjects));
+
 module.exports = router;
