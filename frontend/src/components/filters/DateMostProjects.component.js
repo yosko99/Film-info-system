@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from 'react';
 import Loading from '../Loading.component';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import axios from 'axios';
+import React from 'react';
 
 const FilmNameHighestValue = () => {
-  const [loading, setLoading] = useState(true);
-  const [date, setDate] = useState({
-    date: '',
-    numTimes: ''
-  });
+  const navigate = useNavigate();
+  const { isLoading, isError, error, data } = useQuery('mostProjectDate',
+    () => axios.get('/api/projects/date/countMost')
+      .then((response) => response.data));
 
-  useEffect(() => {
-    axios.get('/api/projects/date/countMost').then((response) => {
-      const { data: [{ broiProjekcii: numTimes, dataProjekciq: date }] } = response;
-      setDate({ date, numTimes });
-      setLoading(false);
-    });
-  });
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    navigate('/404', { state: { error } });
+  }
   return (
-    <>
-    {loading
-      ? <Loading />
-      : <div style={{ height: '80vh' }} className='d-flex justify-content-center align-items-center flex-column'>
-          <h2 className='mb-2'>Дата с най-много излъчвани филми</h2>
-          <h3>През {date.date} са били излъчени {date.numTimes} филма</h3>
-        </div>
-    }
-    </>
+    <div style={{ height: '80vh' }} className='d-flex justify-content-center align-items-center flex-column'>
+      <h2 className='mb-2'>Дата с най-много излъчвани филми</h2>
+      <h3>През {data.date} са били излъчени {data.numTimes} филма</h3>
+    </div>
   );
 };
 

@@ -17,7 +17,9 @@ const Screen404 = () => {
               <Image src='/error-404.webp'/>
           </div>
       </Container>
-        <h4 className='text-center'>{location.state.err.toString()}</h4>
+        {location.state.err &&
+          <h4 className='text-center'>{location.state.err.toString()}</h4>
+        }
     </>
   );
 };
