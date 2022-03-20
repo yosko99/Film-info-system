@@ -4,47 +4,55 @@ import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
 import Loading from '../Loading.component';
 import { Form } from 'react-bootstrap';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
 const FilmByProjectDate = () => {
   const [dataTableState, setDataTableState] = useState('');
-  const [filmsState, setFilmsState] = useState('');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setDataTableState(<DataTable link={'/api/projects/film/' + e.target.value} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }}/>);
-    navigate('?' + getSubmitUrl());
+    setDataTableState(<DataTable
+      showSetting={false}
+      queryKey='filmProjectDate'
+      link={'/api/projects/film/' + e.target.value}
+      data={{ dataProjekciq: 'Дата на прожекция' }}/>);
+    navigate('?' + getSubmitUrl('filmProjectDateForm'));
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
-      setDataTableState(<DataTable link={'/api/projects/film/' + searchParams.get('kodFilm')} showSetting={false} data={{ dataProjekciq: 'Дата на прожекция' }} />);
+      setDataTableState(<DataTable
+        showSetting={false}
+        queryKey='filmProjectDate'
+        link={'/api/projects/film/' + searchParams.get('kodFilm')}
+        data={{ dataProjekciq: 'Дата на прожекция' }} />);
     }
-
-    axios.get('/api/films/').then((response) => {
-      setFilmsState(response.data);
-    }).catch((err) => {
-      navigate('/404', { state: { err } });
-    });
   }, []);
 
+  const { isLoading, isError, error, data } = useQuery(['films', '/api/films'],
+    () => axios.get('/api/films/').then((response) => response.data));
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    navigate('/404', { state: { error } });
+  }
   return (
     <>
     <h3 className='text-center my-2'>По избран филм да се изведе дата на прожекция</h3>
-    {filmsState === ''
-      ? <Loading />
-      : <Form type='get'>
+    <Form type='get' id='filmProjectDateForm'>
       <Form.Group className="mb-3" controlId="kodFilm">
         <Form.Label>Заглавие на филм</Form.Label>
         <Form.Select name='kodFilm' onChange={(e) => handleChange(e)} defaultValue={searchParams.get('kodFilm') || ''}>
-        {filmsState.map((film, index) => (
+        {data.map((film, index) => (
           <option value={film.kodFilm} key={index + 1 }>{film.nazvanieFilm}</option>
         ))}
         </Form.Select>
       </Form.Group>
     </Form>
-    }
 
     { dataTableState }
 

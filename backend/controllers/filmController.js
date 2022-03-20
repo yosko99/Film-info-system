@@ -72,3 +72,9 @@ exports.getFilmByCategory = async (req, res) => {
 
   dbQuery(query, res);
 };
+
+exports.distinctCategories = async (req, res) => {
+  const query = 'SELECT DISTINCT kategoriqFilm FROM film';
+
+  dbQuery(query, res);
+};

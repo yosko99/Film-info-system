@@ -1,10 +1,11 @@
+import { useParams, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import filters from '../filters/exportedFilters';
-import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 const FilterScreen = () => {
   const [formState, setFormState] = useState('');
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -24,6 +25,8 @@ const FilterScreen = () => {
       case '5':
         setFormState(<filters.DateMostProjects />);
         break;
+      default:
+        navigate('/404');
     }
   }, [id]);
 

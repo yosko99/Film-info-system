@@ -6,13 +6,13 @@ import React, { useState } from 'react';
 import MiniSearch from 'minisearch';
 
 const SearchBar = () => {
+  const [tableState, setTableState] = useState('');
   const [dataState, setDataState] = useState({
     query: '',
     variable: '',
     id: '',
     rowText: ''
   });
-  const [tableState, setTableState] = useState('');
 
   const miniSearch = new MiniSearch({
     fields: ['text'], // fields to index for full-text search
@@ -40,6 +40,7 @@ const SearchBar = () => {
     const suggestions = miniSearch.search(e.target.value, { fuzzy: 0.5 });
     const searchMatch = (suggestions.find((suggestion) => suggestion.terms.length >= 2));
 
+    // Check if there is match in keyword and regex found a number
     if (searchMatch !== undefined && extractNumber !== null) {
       setDataState({
         query: searchMatch.query,

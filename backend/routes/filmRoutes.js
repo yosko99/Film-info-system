@@ -37,4 +37,9 @@ router.get('/category/:category', asyncHandler(filmController.getFilmByCategory)
 // @access Public
 router.get('/date/:min/:max', asyncHandler(filmController.getFilmBetweenDates));
 
+// @desc Fetch all distinct film categories
+// @route GET /api/categories/distinct
+// @access Public
+router.get('/categories/distinct', asyncHandler(filmController.distinctCategories));
+
 module.exports = router;

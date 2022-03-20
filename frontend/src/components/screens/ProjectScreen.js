@@ -21,6 +21,7 @@ const ProjectScreen = () => {
                 link={'/api/projects/'}
                 data={projectData.inputData}
                 showSetting={false}
+                queryKey='projects'
             />
       </Container>
   );

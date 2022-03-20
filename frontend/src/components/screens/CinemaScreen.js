@@ -22,6 +22,7 @@ const CinemaScreen = () => {
             <DataTable
                 link={'/api/cinemas/'}
                 data={cinemaData.inputData}
+                queryKey='cinemas'
             />
       </Container>
   );

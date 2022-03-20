@@ -4,52 +4,59 @@ import DataTable from '../partials/DataTable.component';
 import React, { useState, useEffect } from 'react';
 import Loading from '../Loading.component';
 import filmData from '../../data/filmData';
+import { useQuery } from 'react-query';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const FilmByCategory = () => {
   const [dataTableState, setDataTableState] = useState('');
-  const [filmsState, setFilmsState] = useState('');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setDataTableState(<DataTable link={'/api/films/category/' + e.target.value} showSetting={false} data={filmData.inputData}/>);
-    navigate('?' + getSubmitUrl());
+    navigate('?' + getSubmitUrl('filmByCategoryForm'));
+    setDataTableState(<DataTable
+      showSetting={false}
+      queryKey='filmByCategory'
+      data={filmData.inputData}
+      link={'/api/films/category/' + e.target.value}
+      />);
   };
 
   useEffect(() => {
     if (window.location.search !== '') {
-      setDataTableState(<DataTable link={'/api/films/category/' + searchParams.get('categoryName')} showSetting={false} data={filmData.inputData} />);
+      setDataTableState(<DataTable
+        showSetting={false}
+        queryKey='filmByCategory'
+        data={filmData.inputData}
+        link={'/api/films/category/' + searchParams.get('categoryName')}
+        />);
     }
-
-    axios.get('/api/films/').then((response) => {
-      const distinctCategories = new Set();
-      response.data.forEach((film) => {
-        distinctCategories.add(film.kategoriqFilm);
-      });
-      setFilmsState(Array.from(distinctCategories));
-    }).catch((err) => {
-      navigate('/404', { state: { err } });
-    });
   }, []);
 
+  const { isLoading, isError, error, data } = useQuery('categoryNames',
+    () => axios.get('/api/films/categories/distinct').then((response) => response.data));
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    navigate('/404', { state: { error } });
+  }
   return (
     <>
     <h3 className='text-center my-2'>Филми по зададена категория</h3>
-    {filmsState === ''
-      ? <Loading />
-      : <Form type='get'>
+    <Form type='get' id='filmByCategoryForm'>
       <Form.Group className="mb-3" controlId="categoryName">
         <Form.Label>Категория на филм</Form.Label>
         <Form.Select name='categoryName' onChange={(e) => handleChange(e)} defaultValue={searchParams.get('categoryName') || ''}>
-        {filmsState.map((film, index) => (
-          <option value={film} key={index + 1 }>{film}</option>
+        {data.map((kategoriq, index) => (
+          <option value={kategoriq.kategoriqFilm} key={index + 1}>{kategoriq.kategoriqFilm}</option>
         ))}
         </Form.Select>
       </Form.Group>
     </Form>
-    }
+
     { dataTableState }
 
     </>

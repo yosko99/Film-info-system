@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading.component';
+import { useQuery } from 'react-query';
 import axios from 'axios';
+import React from 'react';
 
 const FilmNameHighestValue = () => {
-  const [loading, setLoading] = useState(true);
-  const [filmName, setFilmName] = useState('');
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get('/api/projects/max/price').then((response) => {
-      const { data: [{ nazvanieFilm }] } = response;
-      setFilmName(nazvanieFilm);
-      setLoading(false);
-    });
-  });
+  const { isLoading, isError, error, data } = useQuery('filmNameHighestValue',
+    () => axios.get('/api/projects/max/price')
+      .then((response) => response.data));
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    navigate('/404', { state: { error } });
+  }
+
+  const [{ nazvanieFilm }] = data;
+
   return (
-    <>
-    {loading
-      ? <Loading />
-      : <div style={{ height: '80vh' }} className='d-flex justify-content-center align-items-center flex-column'>
-          <h2 className='mb-2'>Филм с най-скъп билет</h2>
-          <h3>Название на филм: {filmName}</h3>
-        </div>
-    }
-    </>
+    <div style={{ height: '80vh' }} className='d-flex justify-content-center align-items-center flex-column'>
+        <h2 className='mb-2'>Филм с най-скъп билет</h2>
+        <h3>Название на филм: {nazvanieFilm}</h3>
+    </div>
   );
 };
 
