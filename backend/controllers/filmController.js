@@ -2,7 +2,8 @@ const dbQuery = require('../config/dbQuery');
 const db = require('../config/db');
 
 exports.getFilms = async (req, res) => {
-  const query = 'SELECT * FROM film';
+  const { query: { limit } } = req;
+  const query = (limit !== undefined) ? `SELECT * FROM film ORDER BY RAND() LIMIT ${limit}` : 'SELECT * FROM film';
 
   dbQuery(query, res);
 };

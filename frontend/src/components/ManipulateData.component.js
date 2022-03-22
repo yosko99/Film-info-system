@@ -8,14 +8,10 @@ import axios from 'axios';
 
 const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValues = '' }) => {
   // TODO: Maybe make it more responsive and export functionality and components to other files
-
-  if (defaultValues !== '') {
-    // formData[0].id is usually the name for the table row like nazvanieFilm, nazvanieKinoteatyr etc.
-    var [headerState, setHeaderState] = useState(defaultValues[formData[0].id]);
-  }
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
   const [fetchResponseState, setFetchResponseState] = useState('');
   const [dataState, setDataState] = useState({ inputValues });
+  const [headerState, setHeaderState] = useState('');
   const [validated, setValidated] = useState(false);
 
   const navigate = useNavigate();
@@ -99,6 +95,10 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
   };
 
   useEffect(() => {
+    if (defaultValues !== '') {
+      // formData[0].id is usually the name for the table row like nazvanieFilm, nazvanieKinoteatyr etc.
+      setHeaderState(defaultValues[formData[0].id]);
+    }
     // Check whether option menu flag is set and fetch all film and cinema names
     if (optionMenu) {
       axios.get(('/api/films/')).then((response) => {

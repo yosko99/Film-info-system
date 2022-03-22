@@ -2,8 +2,8 @@ const filmController = require('../controllers/filmController');
 const asyncHandler = require('express-async-handler');
 const router = require('express').Router();
 
-// @desc Fetch all films
-// @route GET /api/films/
+// @desc Fetch all films with optional limit, if limit is engaged fetch random films
+// @route GET /api/films/(?limit)
 // @access Public
 router.get('/', asyncHandler(filmController.getFilms));
 

@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainScreen from './components/screens/mainScreen/MainScreen';
 import EditDataScreen from './components/screens/EditDataScreen';
 import ProjectScreen from './components/screens/ProjectScreen';
 import CinemaScreen from './components/screens/CinemaScreen';
-import Header from './components/partials/Header.component';
 import FilterScreen from './components/screens/FilterScreen';
 import Footer from './components/partials/Footer.component';
-import MainScreen from './components/screens/MainScreen';
+import Header from './components/header/Header.component';
 import FilmScreen from './components/screens/FilmScreen';
 import Screen404 from './components/screens/Screen404';
 import React from 'react';

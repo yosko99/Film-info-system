@@ -18,7 +18,7 @@ const Screen404 = () => {
           </div>
       </Container>
         {location.state &&
-          <h4 className='text-center'>{location.state.err.toString()}</h4>
+          <h4 className='text-center'>{location.state.err || ''}</h4>
         }
     </>
   );

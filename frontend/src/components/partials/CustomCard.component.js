@@ -17,9 +17,9 @@ const CustomCard = ({ imgSrc, title, body }) => {
 };
 
 CustomCard.propTypes = {
-  imgSrc: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired
+  body: PropTypes.string.isRequired,
+  imgSrc: PropTypes.string
 };
 
 export default CustomCard;

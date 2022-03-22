@@ -1,7 +1,7 @@
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import HeaderFilters from './HeaderFilters.component';
-import SearchBar from './SearchBar.component';
+import SearchBar from '../partials/SearchBar.component';
 import React from 'react';
 
 const Header = () => {
