@@ -5,7 +5,6 @@ import axios from 'axios';
 const useCreateUpdate = (link, instruction) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const queryKey = link.split('/')[2];
 
   const postMutation = useMutation((data) => {
     if (instruction === 'create') {
@@ -15,7 +14,7 @@ const useCreateUpdate = (link, instruction) => {
     }
   }, {
     onSuccess: () => {
-      queryClient.invalidateQueries(queryKey);
+      queryClient.invalidateQueries();
     },
     onError: (err) => {
       navigate('/404', { state: { err } });

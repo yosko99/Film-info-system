@@ -1,44 +1,45 @@
 import ManipulateData from '../manipulateData/ManipulateData.component';
 import Loading from '../partials/Loading.component';
-import React, { useState, useEffect } from 'react';
 import cinemaData from '../../data/cinemaData';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import filmData from '../../data/filmData';
+import React, { useRef } from 'react';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
 const EditDataScreen = () => {
-  const [currentTableState, setCurrentTableState] = useState({});
-  const [loadingState, setLoadingState] = useState(true);
-  const [dataState, setDataState] = useState([]);
+  const currentTable = useRef({});
   const navigate = useNavigate();
 
-  const apiRoute = window.location.pathname.split('/')[1];
+  const { location: { pathname } } = window;
+  const apiRoute = pathname.split('/')[1];
 
-  useEffect(() => {
-    axios.get(`/api${window.location.pathname}`).then((response) => {
-      // Check which route is entered to decide what data to load
-      apiRoute === 'cinemas' ? setCurrentTableState(cinemaData) : setCurrentTableState(filmData);
-      setDataState(response.data[0]);
-      setLoadingState(false);
-    }).catch((err) => {
-      navigate('/404', { state: { err } });
-    });
-  }, []);
+  currentTable.current = (apiRoute === 'cinemas') ? cinemaData : filmData;
+
+  const link = `/api${pathname}`;
+
+  const { isLoading, isError, error, data } = useQuery(pathname,
+    () => axios.get(link)
+      .then((response) => response.data));
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    navigate('/404', { state: { error } });
+  }
 
   return (
       <>
-      {loadingState
-        ? <Loading />
-        : <Container className='mt-2'>
+        <Container className='mt-2'>
           <ManipulateData
             link={`/api/${apiRoute}/`}
-            inputValues={currentTableState.inputData}
-            formData={currentTableState.formData}
-            defaultValues={dataState}
+            inputValues={currentTable.current.inputData}
+            formData={currentTable.current.formData}
+            defaultValues={data[0]}
           />
-      </Container>
-    }
+        </Container>
     </>
   );
 };
