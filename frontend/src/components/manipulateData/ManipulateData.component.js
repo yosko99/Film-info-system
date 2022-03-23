@@ -1,7 +1,10 @@
+import updateResponseMsg from './functions/updateResponseMsg';
 import { Form, Button, Col, Alert } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import useCreateUpdate from './hooks/useCreateUpdate';
+import useHandleDelete from './hooks/useHandleDelete';
+import Loading from '../partials/Loading.component';
 import React, { useEffect, useState } from 'react';
-import Loading from './Loading.component';
+import { useParams } from 'react-router-dom';
 import Zoom from 'react-reveal/Zoom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -9,58 +12,32 @@ import axios from 'axios';
 const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValues = '' }) => {
   // TODO: Maybe make it more responsive and export functionality and components to other files
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
-  const [fetchResponseState, setFetchResponseState] = useState('');
   const [dataState, setDataState] = useState({ inputValues });
+  const [msgBoxState, setMsgBoxState] = useState('');
   const [headerState, setHeaderState] = useState('');
   const [validated, setValidated] = useState(false);
 
-  const navigate = useNavigate();
-
-  const responseUpdate = (response) => {
-    // Something went wrong with the action
-    if (response.data.sqlMessage !== undefined) {
-      setFetchResponseState({
-        msg: response.data.sqlMessage,
-        variant: 'danger'
-      });
-    } else {
-      // Successfull action
-      setFetchResponseState({
-        msg: 'Успешно действие :)',
-        variant: 'success'
-      });
-    }
-  };
+  const createData = useCreateUpdate(link, 'create');
+  const updateData = useCreateUpdate(link, 'update');
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     // Hide alert box
-    setFetchResponseState('');
+    setMsgBoxState('');
 
     // Validate form
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     } else {
-      event.preventDefault();
-
+      // Adding data
       if (defaultValues === '') {
-        axios.post(link, {
-          data: dataState
-        }).then((response) => {
-          responseUpdate(response);
-        }).catch((err) => {
-          navigate('/404', { state: { err } });
-        });
-      } else {
-        axios.put(link, {
-          data: dataState
-        }).then((response) => {
-          responseUpdate(response);
-          setHeaderState(dataState[formData[0].id]);
-        }).catch((err) => {
-          navigate('/404', { state: { err } });
-        });
+        createData.mutate(dataState);
+        updateResponseMsg(setMsgBoxState);
+      } else { // Updating data
+        updateData.mutate(dataState);
+        updateResponseMsg(setMsgBoxState);
+        setHeaderState(dataState[formData[0].id]);
       }
     }
 
@@ -68,20 +45,12 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
   };
 
   const { id } = useParams();
+  const deleteData = useHandleDelete(link, id);
 
   const handleDelete = (e) => {
     e.preventDefault();
-
     if (confirm('Наистина ли искате да изтриете данните?')) {
-      // Link where you will be redirected after deletion
-      const backUrl = `/${window.location.pathname.split('/')[1]}`;
-
-      axios.delete(link + id).then((response) => {
-        alert('Данните са изтрити успешно!');
-        navigate(backUrl);
-      }).catch((err) => {
-        navigate('/404', { state: { err } });
-      });
+      deleteData.mutate();
     }
   };
 
@@ -191,7 +160,7 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
         </Form.Group>
         </>}
 
-        {fetchResponseState !== '' && <Zoom><Alert variant={fetchResponseState.variant}>{fetchResponseState.msg}</Alert></Zoom>}
+        {msgBoxState !== '' && <Zoom><Alert variant={msgBoxState.variant}>{msgBoxState.msg}</Alert></Zoom>}
 
           {defaultValues === ''
             ? <Button type='submit' className='w-100 mt-2'>Добави</Button>

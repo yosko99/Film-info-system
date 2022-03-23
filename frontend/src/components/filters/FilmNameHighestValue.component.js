@@ -1,5 +1,5 @@
+import Loading from '../partials/Loading.component';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../Loading.component';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import React from 'react';

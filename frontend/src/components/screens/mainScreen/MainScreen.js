@@ -1,5 +1,5 @@
+import Loading from '../../partials/Loading.component';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../Loading.component';
 import ShowFilms from './ShowFilms.component';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';

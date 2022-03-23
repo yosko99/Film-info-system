@@ -2,9 +2,9 @@ import stripQueryFromUrl from '../../functions/stripQueryFromUrl';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
+import Loading from '../partials/Loading.component';
 import React, { useEffect, useState } from 'react';
 import { Form, Col } from 'react-bootstrap';
-import Loading from '../Loading.component';
 import { useQueries } from 'react-query';
 import axios from 'axios';
 

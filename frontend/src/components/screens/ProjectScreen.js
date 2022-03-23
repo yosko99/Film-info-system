@@ -1,4 +1,4 @@
-import ManipulateData from '../ManipulateData.component';
+import ManipulateData from '../manipulateData/ManipulateData.component';
 import DataTable from '../partials/DataTable.component';
 import ModalForm from '../partials/Modal.component';
 import projectData from '../../data/projectData';

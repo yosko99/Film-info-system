@@ -7,8 +7,8 @@ const ModalForm = ({ btnText, modalBody, onClick }) => {
 
   const handleClose = () => {
     setShow(false);
-    window.location.reload(false);
   };
+
   const handleShow = (e) => {
     if (onClick !== undefined) {
       onClick(e);

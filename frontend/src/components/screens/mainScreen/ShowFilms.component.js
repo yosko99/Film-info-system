@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 import CustomCard from '../../partials/CustomCard.component';
+import Loading from '../../partials/Loading.component';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../Loading.component';
 import { useQueries } from 'react-query';
 import React from 'react';
 
 const ShowFilms = ({ useQueriesData, films }) => {
-  const results = useQueries(useQueriesData);
+  const results = useQueries(useQueriesData, {
+    refetchOnMount: false
+  });
   const navigate = useNavigate();
 
   const isLoading = results.some(result => result.isLoading);

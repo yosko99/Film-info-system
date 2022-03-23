@@ -1,10 +1,10 @@
-import ManipulateData from '../ManipulateData.component';
+import ManipulateData from '../manipulateData/ManipulateData.component';
+import Loading from '../partials/Loading.component';
 import React, { useState, useEffect } from 'react';
 import cinemaData from '../../data/cinemaData';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import filmData from '../../data/filmData';
-import Loading from '../Loading.component';
 import axios from 'axios';
 
 const EditDataScreen = () => {

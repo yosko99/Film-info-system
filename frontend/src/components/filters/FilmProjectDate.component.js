@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
 import getSubmitUrl from '../../functions/getSubmitUrl';
 import DataTable from '../partials/DataTable.component';
-import Loading from '../Loading.component';
+import Loading from '../partials/Loading.component';
+import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useQuery } from 'react-query';
 import axios from 'axios';

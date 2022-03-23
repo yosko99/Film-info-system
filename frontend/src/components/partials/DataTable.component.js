@@ -1,9 +1,9 @@
 /* eslint-disable no-var */
 import { LinkContainer } from 'react-router-bootstrap';
+import Loading from '../partials/Loading.component';
 import { useQuery, useMutation } from 'react-query';
 import { Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../Loading.component';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -35,7 +35,9 @@ const DataTable = ({ link, data, showSetting = true, optionalData = '', queryKey
     // eslint-disable-next-line no-redeclare
     var { isLoading, isError, error, data: response } = useQuery([queryKey, link],
       () => axios.get(link)
-        .then((response) => response.data));
+        .then((response) => response.data), {
+        refetchOnMount: true
+      });
   }
 
   if (isLoading) {
