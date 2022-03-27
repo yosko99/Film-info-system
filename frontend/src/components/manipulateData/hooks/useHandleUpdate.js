@@ -2,16 +2,12 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const useCreateUpdate = (link, instruction) => {
+const useCreateUpdate = (link) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const postMutation = useMutation((data) => {
-    if (instruction === 'create') {
-      return axios.post(link, { data });
-    } else {
-      return axios.put(link, { data });
-    }
+    return axios.put(link, { data });
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries();

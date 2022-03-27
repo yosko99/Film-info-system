@@ -13,7 +13,6 @@ const ProjectScreen = () => {
           modalBody={
           <ManipulateData
             link={'/api/projects/'}
-            inputValues={projectData.inputData}
             optionMenu={true}
               />}
         />

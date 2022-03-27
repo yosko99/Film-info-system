@@ -1,6 +1,5 @@
 import updateResponseMsg from './functions/updateResponseMsg';
 import { Form, Button, Col, Alert } from 'react-bootstrap';
-import useCreateUpdate from './hooks/useCreateUpdate';
 import useHandleDelete from './hooks/useHandleDelete';
 import Loading from '../partials/Loading.component';
 import React, { useEffect, useState } from 'react';
@@ -8,17 +7,19 @@ import { useParams } from 'react-router-dom';
 import Zoom from 'react-reveal/Zoom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import useHandleUpdate from './hooks/useHandleUpdate';
+import useHandleCreate from './hooks/useHandleCreate';
 
-const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValues = '' }) => {
+const AddData = ({ link, formData, optionMenu = false, defaultValues = '' }) => {
   // TODO: Maybe make it more responsive and export functionality and components to other files
   const [optionMenuState, setOptionMenuState] = useState({ films: '', cinemas: '' });
-  const [dataState, setDataState] = useState({ inputValues });
+  const [dataState, setDataState] = useState({ });
   const [msgBoxState, setMsgBoxState] = useState('');
   const [headerState, setHeaderState] = useState('');
   const [validated, setValidated] = useState(false);
 
-  const createData = useCreateUpdate(link, 'create');
-  const updateData = useCreateUpdate(link, 'update');
+  const createData = useHandleCreate(link);
+  const updateData = useHandleUpdate(link);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -176,7 +177,6 @@ const AddData = ({ link, inputValues, formData, optionMenu = false, defaultValue
 
 AddData.propTypes = {
   defaultValues: PropTypes.object,
-  inputValues: PropTypes.object,
   optionMenu: PropTypes.bool,
   formData: PropTypes.array,
   link: PropTypes.string

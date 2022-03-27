@@ -14,7 +14,6 @@ const CinemaScreen = () => {
           modalBody={
             <ManipulateData
               link={'/api/cinemas/'}
-              inputValues={cinemaData.inputValues}
               formData={cinemaData.formData}
               />
             }

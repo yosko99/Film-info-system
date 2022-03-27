@@ -35,7 +35,6 @@ const EditDataScreen = () => {
         <Container className='mt-2'>
           <ManipulateData
             link={`/api/${apiRoute}/`}
-            inputValues={currentTable.current.inputData}
             formData={currentTable.current.formData}
             defaultValues={data[0]}
           />

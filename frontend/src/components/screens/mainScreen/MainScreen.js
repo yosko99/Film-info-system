@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 
 const MainScreen = () => {
+  // Limit of fetched films
   const [limit] = useState(4);
   const navigate = useNavigate();
 
